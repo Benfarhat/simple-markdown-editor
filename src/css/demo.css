@@ -1,0 +1,35 @@
+body {
+  font-family: 'Archivo Narrow', sans-serif;
+}
+.jumbotron{
+  margin-bottom: 0;
+  padding-top:48px;
+  padding-bottom:48px;
+  text-align: center;
+}
+.first{
+  padding-bottom: 48px;
+  background-color: #ddd;
+}
+.second{
+  background-color: #bbb;
+  padding-bottom: 24px;
+}
+.toolbar{
+  background-color: #eee;  
+}
+.btn{border-radius: 0;}
+textarea, .preview{
+  width: 100%;
+  padding: 4px;
+  border: 1px solid #e1e1e1;
+  min-height: 400px;
+  background-color: #fff;
+}
+textarea{
+    font-family: 'Cutive Mono', monospace;
+    font-family: 'Inconsolata', monospace;
+}
+footer p{
+  text-align: center;
+}

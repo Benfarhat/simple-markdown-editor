@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>##jQ Markdown Editor##</title>
+    <meta charset="utf-8"/>    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Markdown, Editor"> 
+    <meta name="description" content="A Simple jQuery Markdown Editor"> 
+    <meta name="author" content="Benfarhat Elyes"> 
+    <meta name="geo.placename" content="Tunis, Tunisia"> 
+    <meta name="geo.region" content="TN-11">   
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+    <!-- Font Face -->
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Cutive+Mono|Inconsolata" rel="stylesheet"> 
+    <!-- Showdown Mardown to HTML 
+    @see: https://github.com/showdownjs/showdown -->
+    <script src="https://cdn.rawgit.com/showdownjs/showdown/1.7.3/dist/showdown.min.js"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <!-- Demo css -->
+    <link href="src/css/demo.css" rel="stylesheet">
+</head>
+
+<body>
+  
+    <!-- ######## -->
+    <!-- MENU NAV -->
+    <!-- ######## -->
+    
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Simple Markdown Editor</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="#"><i class="fa fa-github"></i> <span class="sr-only">(current)</span></a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Markdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="https://en.wikipedia.org/wiki/Markdown">Definition</a></li>
+                <li><a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Cheatsheet</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="https://docs.gitlab.com/ee/user/markdown.html">Markdown documentation (Gitlab)</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    <!-- ########### -->
+    <!-- PRIMARY MSG -->
+    <!-- ########### -->
+    
+    <div class="jumbotron">
+      <div class="container">
+        <h1># Hello, world!</h1>
+        <p>Just a simple **Markdown** editor made with <i class="fa fa-heart text-danger"></i> and ~~some coffee~~, hope you like it!</p>
+        <p>Turn easily any textarea into a customizable Markdown Editor</p>
+      </div>
+    </div>
+
+    <!-- ############## -->
+    <!-- FIRST TEXTAREA -->
+    <!-- ############## -->
+    
+    <div class="container-fluid first">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Demo 1 - Full</h2>
+       
+          <hr>
+          <textarea id="myEditor1">a
+b
+c 
+d 
+e 
+f 
+g 
+h 
+i 
+j 
+k 
+l 
+m 
+n n-resizeo Loremp LoremqL orem ipsum dolor sit amet, consectetur adipiscing elit. 
+
+ Integer finibus purus iaculis, condimentum ex quis, ullamcorper nulla. 
+ Quisque vel dolor lacus. 
+ Integer ac elit quis orci suscipit dapibus. Nulla laoreet felis sed dolor posuere, finibus placerat dolor sodales. 
+ Aenean tellus ligula, egestas ut sapien quis, euismod laoreet risus. D
+ onec vel nibh ex. 
+ Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. 
+ Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus. 
+ Duis volutpat felis mauris, sit amet porttitor ex venenatis ut. 
+ Sed rhoncus tortor quis metus maximus suscipit. Aliquam at varius purus. 
+a
+b
+c 
+d 
+e 
+f 
+g 
+h 
+i 
+j 
+k 
+l 
+m 
+n 
+o 
+p 
+q 
+r 
+s 
+t 
+u 
+            </textarea>
+        </div>
+        <div class="col-md-6">
+          <h2>Preview 1</h2>
+          <hr>
+          <div id="preview1" class="preview">
+          
+          </div>
+       </div>
+      </div>
+    </div>
+    
+    <!-- ################ -->
+    <!-- ANOTHER TEXTAREA -->
+    <!-- ################ -->
+  
+    <div class="container-fluid second">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Demo 2 - Minimalist</h2>
+          <hr>
+          <textarea id="myEditor2"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer finibus purus iaculis, condimentum ex quis, ullamcorper nulla. Quisque vel dolor lacus. Integer ac elit quis orci suscipit dapibus. Nulla laoreet felis sed dolor posuere, finibus placerat dolor sodales. Aenean tellus ligula, egestas ut sapien quis, euismod laoreet risus. Donec vel nibh ex. Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus. Duis volutpat felis mauris, sit amet porttitor ex venenatis ut. Sed rhoncus tortor quis metus maximus suscipit. Aliquam at varius purus.</textarea>
+        </div>
+        <div class="col-md-6">
+          <h2>Preview 2</h2>
+          <hr>
+          <div id="preview2" class="preview">
+          
+          </div>
+       </div>
+      </div>
+
+    </div>
+    
+    <!-- ###### -->
+    <!-- FOOTER -->
+    <!-- ###### -->
+    
+    <div class="container">
+      <footer>
+        <p>Please <span class="text-danger">❤❤❤</span> No matter how small your contribution is, never stop sharing your knowledge with the world!</p>
+      </footer>
+    </div> <!-- /container -->
+    
+    
+    
+
+  <!-- All Jquery -->
+  <!-- ============================================================== -->
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Bootstrap Core JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Simple jQuery Markdown Editor -->
+  <script src="src/js/Simple-jQMarkdownEditor.js"></script>
+        
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#myEditor1').mardownEditor({
+      });
+      
+      $('#myEditor2').mardownEditor({
+
+            buttons: {
+              bold: { 
+                title: '<i class="fa fa-bold"></i>',  
+                class: 'btn', 
+                first: '**', // First fragment > opening tag
+                last: '**', // Last fragment > closing tag
+                hotkey: 'b', // @todo
+                rule: 'inline',
+                tooltip: 'Strong.'
+              },
+              italic: {
+                title: '<i class="fa fa-italic"></i>',
+                class: 'btn',
+                first: '*',
+                last: '*',
+                hotkey: 'i',
+                rule: 'inline',
+                tooltip: 'Emphasis.'
+              },
+              NumberedList: {
+                title: '<i class="fa fa-list-ol"></i>',
+                class: 'btn',
+                first: '1. ',
+                last: '\n',
+                hotkey: 'i',
+                rule: 'ordered',
+                tooltip: 'Ordered list.' 
+              },
+              BullettedList: {
+                title: '<i class="fa fa-list-ul"></i>',
+                class: 'btn',
+                first: '* ',
+                last: '\n',
+                hotkey: 'i',
+                rule: 'block',
+                tooltip: 'Unordered list.' 
+              },
+              indent: {
+                title: '<i class="fa fa-indent"></i>',
+                class: 'btn',
+                first: '\t',
+                last: '',
+                hotkey: 'i',
+                rule: 'block',
+                tooltip: 'indent.' 
+              },
+              outdent: {
+                title: '<i class="fa fa-outdent"></i>',
+                class: 'btn',
+                first: '\t',
+                last: '',
+                hotkey: 'i',
+                rule: 'back',
+                tooltip: 'outdent.' 
+              },
+              h1: {
+                title: 'H1', 
+                class: 'btn',
+                first: '# ',
+                last: '',
+                hotkey: '1',
+                rule: 'block', // @todo special rule for alternative headers ===
+                tooltip: 'Header lvl 1.' 
+              },
+              h2: {
+                title: 'H2',
+                class: 'btn',
+                first: '## ',
+                last: '',
+                hotkey: '2',
+                rule: 'block', // @todo special rule for alternative headers ---
+                tooltip: 'Header lvl 2.' 
+              },
+              hr: {
+                title: '<i class="fa fa-minus"></i>',
+                class: 'btn',
+                first: '\n___\n',
+                last: '',
+                hotkey: '6',
+                rule: 'inline',
+                tooltip: 'Horizontal rule.' 
+              },
+              blockquotes: {
+                title: '<i class="fa fa-quote-right"></i>',
+                class: 'btn',
+                first: '> ',
+                last: '',
+                hotkey: '6',
+                rule: 'block',
+                tooltip: 'Blockquotes.' 
+              },
+              links: {
+                title: '<i class="fa fa-link"></i>',
+                class: 'btn btn-info',
+                first: '[',
+                last: ']',
+                hotkey: '6',
+                rule: 'url',
+                tooltip: 'Insert link.',
+                prompt: 'Please enter a url.',
+                error: 'User cancelled the prompt.',
+                placeholder: 'http://'
+              },
+            },
+            actionClass: "markdowneditor",
+            toolbarClass: "toolbar", // wrapping div
+            strictSelection: true // delete/split space from the end
+      });
+ 
+      var converter = new showdown.Converter();    
+      converter.setFlavor('github');   
+      $('#preview1').html(converter.makeHtml($('#myEditor1').val()));  
+      $('#preview2').html(converter.makeHtml($('#myEditor2').val()));
+      
+
+      $('#myEditor1').bind('input focus propertychange', function() { 
+        $('#preview1').html(converter.makeHtml($(this).val()));
+      });
+      
+      $('#myEditor2').bind('input focus propertychange', function() { 
+        $('#preview2').html(converter.makeHtml($(this).val()));
+      });
+   
+
+    });
+  </script>  
+</body>
+</html>
