@@ -84,55 +84,59 @@
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-6">
-          <h2>Demo 1 - Full</h2>
+          <h2>Demo 1</h2>
        
           <hr>
-          <textarea id="myEditor1">a
-b
-c 
-d 
-e 
-f 
-g 
-h 
-i 
-j 
-k 
-l 
-m 
-n n-resizeo Loremp LoremqL orem ipsum dolor sit amet, consectetur adipiscing elit. 
+          <textarea id="myEditor1"># Header 1
 
- Integer finibus purus iaculis, condimentum ex quis, ullamcorper nulla. 
- Quisque vel dolor lacus. 
- Integer ac elit quis orci suscipit dapibus. Nulla laoreet felis sed dolor posuere, finibus placerat dolor sodales. 
- Aenean tellus ligula, egestas ut sapien quis, euismod laoreet risus. D
- onec vel nibh ex. 
- Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. 
- Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus. 
- Duis volutpat felis mauris, sit amet porttitor ex venenatis ut. 
- Sed rhoncus tortor quis metus maximus suscipit. Aliquam at varius purus. 
-a
-b
-c 
-d 
-e 
-f 
-g 
-h 
-i 
-j 
-k 
-l 
-m 
-n 
-o 
-p 
-q 
-r 
-s 
-t 
-u 
-            </textarea>
+## subtitle 1
+Lorem **ipsum** dolor sit amet, consectetur *adipiscing* elit. Integer finibus purus iaculis, condimentum ex quis, ullamcorper nulla. Quisque vel dolor lacus. Integer ac elit quis orci suscipit dapibus. Nulla laoreet felis sed dolor posuere, finibus placerat dolor sodales. Aenean tellus ligula, egestas ut sapien quis, euismod laoreet risus. Donec vel nibh ex. Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus. Duis volutpat felis mauris, sit amet porttitor ex venenatis ut. Sed rhoncus tortor quis metus maximus suscipit.
+
+* item
+* item
+	* item
+	* item
+* item
+
+
+1. item
+3. item
+4. item
+5. item
+6. item
+
+
+## subtitle 2
+
+
+> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer finibus purus iaculis, condimentum ex quis, ullamcorper nulla. Quisque vel dolor lacus. Integer ac elit quis orci suscipit dapibus 
+
+- [x] task 1
+- [x] task 2
+- [ ] task 3
+- [ ] task 4
+- [x] task 5
+
+___
+
+Header 2
+a [link](https://github.com/Benfarhat/simple-markdown-editor)
+a picture: 
+![](https://raw.githubusercontent.com/indievox-inc/iNDIEVOX-Web-Profile/master/image/github-logo.jpg)
+and a table
+
+
+| &nbsp;Header 1  - Left-aligned &nbsp; | &nbsp;Header 2  Center-aligned &nbsp; | &nbsp;Header 3  Center-aligned &nbsp; | &nbsp;Header 4  Right-aligned &nbsp; |
+|:--- |:---:|:---:| ---:|
+| Col1-Row1 | Col1-Row2 | Col1-Row3 | Col1-Row4 |
+| Col2-Row1 | Col2-Row2 | Col2-Row3 | Col2-Row4 |
+| Col3-Row1 | Col3-Row2 | Col3-Row3 | Col3-Row4 |
+
+
+
+___
+
+</textarea>
         </div>
         <div class="col-md-6">
           <h2>Preview 1</h2>
@@ -151,9 +155,22 @@ u
     <div class="container-fluid second">
       <div class="row">
         <div class="col-md-6">
-          <h2>Demo 2 - Minimalist</h2>
+          <h2>Demo 2</h2>
           <hr>
-          <textarea id="myEditor2"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer finibus purus iaculis, condimentum ex quis, ullamcorper nulla. Quisque vel dolor lacus. Integer ac elit quis orci suscipit dapibus. Nulla laoreet felis sed dolor posuere, finibus placerat dolor sodales. Aenean tellus ligula, egestas ut sapien quis, euismod laoreet risus. Donec vel nibh ex. Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus. Duis volutpat felis mauris, sit amet porttitor ex venenatis ut. Sed rhoncus tortor quis metus maximus suscipit. Aliquam at varius purus.</textarea>
+          <textarea id="myEditor2"># Lorem ipsum dolor sit amet, 
+          
+## consectetur
+
+**Integer finibus purus iaculis**, condimentum ex quis, ullamcorper nulla. Quisque vel dolor lacus. 
+
+## adipiscing elit
+
+> *Integer ac elit quis orci suscipit dapibus*. Nulla laoreet felis sed dolor posuere, finibus placerat dolor sodales. 
+
+___
+~~~Aenean tellus ligula~~~, egestas ut sapien quis, euismod laoreet risus. Donec vel nibh ex. Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus. Duis volutpat felis mauris, sit amet porttitor ex venenatis ut. 
+
+> Sed rhoncus tortor quis metus maximus suscipit. Aliquam at varius purus.</textarea>
         </div>
         <div class="col-md-6">
           <h2>Preview 2</h2>
@@ -194,114 +211,6 @@ u
       });
       
       $('#myEditor2').mardownEditor({
-
-            buttons: {
-              bold: { 
-                title: '<i class="fa fa-bold"></i>',  
-                class: 'btn', 
-                first: '**', // First fragment > opening tag
-                last: '**', // Last fragment > closing tag
-                hotkey: 'b', // @todo
-                rule: 'inline',
-                tooltip: 'Strong.'
-              },
-              italic: {
-                title: '<i class="fa fa-italic"></i>',
-                class: 'btn',
-                first: '*',
-                last: '*',
-                hotkey: 'i',
-                rule: 'inline',
-                tooltip: 'Emphasis.'
-              },
-              NumberedList: {
-                title: '<i class="fa fa-list-ol"></i>',
-                class: 'btn',
-                first: '1. ',
-                last: '\n',
-                hotkey: 'i',
-                rule: 'ordered',
-                tooltip: 'Ordered list.' 
-              },
-              BullettedList: {
-                title: '<i class="fa fa-list-ul"></i>',
-                class: 'btn',
-                first: '* ',
-                last: '\n',
-                hotkey: 'i',
-                rule: 'block',
-                tooltip: 'Unordered list.' 
-              },
-              indent: {
-                title: '<i class="fa fa-indent"></i>',
-                class: 'btn',
-                first: '\t',
-                last: '',
-                hotkey: 'i',
-                rule: 'block',
-                tooltip: 'indent.' 
-              },
-              outdent: {
-                title: '<i class="fa fa-outdent"></i>',
-                class: 'btn',
-                first: '\t',
-                last: '',
-                hotkey: 'i',
-                rule: 'back',
-                tooltip: 'outdent.' 
-              },
-              h1: {
-                title: 'H1', 
-                class: 'btn',
-                first: '# ',
-                last: '',
-                hotkey: '1',
-                rule: 'block', // @todo special rule for alternative headers ===
-                tooltip: 'Header lvl 1.' 
-              },
-              h2: {
-                title: 'H2',
-                class: 'btn',
-                first: '## ',
-                last: '',
-                hotkey: '2',
-                rule: 'block', // @todo special rule for alternative headers ---
-                tooltip: 'Header lvl 2.' 
-              },
-              hr: {
-                title: '<i class="fa fa-minus"></i>',
-                class: 'btn',
-                first: '\n___\n',
-                last: '',
-                hotkey: '6',
-                rule: 'inline',
-                tooltip: 'Horizontal rule.' 
-              },
-              blockquotes: {
-                title: '<i class="fa fa-quote-right"></i>',
-                class: 'btn',
-                first: '> ',
-                last: '',
-                hotkey: '6',
-                rule: 'block',
-                tooltip: 'Blockquotes.' 
-              },
-              links: {
-                title: '<i class="fa fa-link"></i>',
-                class: 'btn btn-info',
-                first: '[',
-                last: ']',
-                hotkey: '6',
-                rule: 'url',
-                tooltip: 'Insert link.',
-                prompt: 'Please enter a url.',
-                error: 'User cancelled the prompt.',
-                placeholder: 'http://'
-              },
-            },
-            actionClass: "markdowneditor",
-            toolbarClass: "toolbar", // wrapping div
-            strictSelection: true // delete/split space from the end
       });
  
       var converter = new showdown.Converter();    
