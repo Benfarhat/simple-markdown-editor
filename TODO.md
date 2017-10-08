@@ -8,7 +8,7 @@
 - [ ] Add a **fullscreen** button
 - [ ] Add toolbar **separator** (between buttons)
 - [ ] Toolbar **fixed to top**
-- [ ] Add an **underline** button
+- [x] Add an **underline** button
 - [ ] Add **emoji** 
 - [ ] **Optimize** script
 - [ ] Add **hotkey** support

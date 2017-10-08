@@ -27,6 +27,15 @@
                 rule: 'inline',
                 tooltip: 'Emphasis.'
               },
+              underline: {
+                title: '<i class="fa fa-underline"></i>',
+                class: 'btn btn-info',
+                first: '<u>',
+                last: '</u>',
+                hotkey: 'i',
+                rule: 'inline',
+                tooltip: 'Underline.'
+              },
               strikeThrough : {
                 title: '<i class="fa fa-strikethrough "></i>',
                 class: 'btn btn-info',
