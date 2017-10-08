@@ -185,7 +185,7 @@
                 title: '<i class="fa fa-check-square-o"></i>',
                 class: 'btn',
                 first: '- [x] ',
-                last: '\n',
+                last: '',
                 hotkey: '6',
                 rule: 'block',
                 tooltip: 'Completed task.' 
@@ -194,7 +194,7 @@
                 title: '<i class="fa fa-square-o"></i>',
                 class: 'btn',
                 first: '- [ ] ',
-                last: '\n',
+                last: '',
                 hotkey: '6',
                 rule: 'block',
                 tooltip: 'Uncompleted task.' 
