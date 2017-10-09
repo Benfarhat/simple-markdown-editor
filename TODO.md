@@ -10,7 +10,7 @@
 - [ ] Toolbar **fixed to top**
 - [x] Add an **underline** button
 - [ ] Add **emoji** 
-- [ ] **Optimize** script
+- [ ] **Refactor** js code
 - [ ] Add **hotkey** support
 - [ ] **open/load files** to editor?
-- [ ] save work to file
+- [ ] **save** work to file
