@@ -30,6 +30,10 @@ textarea{
     font-family: 'Cutive Mono', monospace;
     font-family: 'Inconsolata', monospace;
 }
+.preview{
+	max-height: 468px;
+	overflow: auto;
+}
 footer p{
   text-align: center;
 }

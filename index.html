@@ -229,6 +229,21 @@ ___
    
 
     });
+		<!-- Synchronize scroll between textarea and previews -->
+		var e1 = document.getElementById('myEditor1');
+		var e2 = document.getElementById('myEditor2');
+		var p1 = document.getElementById('preview1');
+		var p2 = document.getElementById('preview2');
+
+		function sync_scroll_1(e) { p1.scrollTop = e1.scrollTop; }
+		function sync_scroll_2(e) { p2.scrollTop = e2.scrollTop; }
+		function sync_scroll_3(e) { e1.scrollTop = p1.scrollTop; }
+		function sync_scroll_4(e) { e2.scrollTop = p2.scrollTop; }
+
+		e1.addEventListener('scroll', sync_scroll_1, false);
+		e2.addEventListener('scroll', sync_scroll_2, false);
+		p1.addEventListener('scroll', sync_scroll_1, false);
+		p2.addEventListener('scroll', sync_scroll_2, false);
   </script>  
 </body>
 </html>
