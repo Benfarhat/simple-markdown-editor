@@ -200,6 +200,7 @@ ___
   <!-- ============================================================== -->
   <!-- jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="src/js/jquery/1.12.4/jquery.min.js"><\/script>');</script>
   <!-- Bootstrap Core JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- Simple jQuery Markdown Editor -->
@@ -207,6 +208,7 @@ ___
         
   <script type="text/javascript">
     $(document).ready(function () {
+      'use strict';
       $('#myEditor1').mardownEditor({
       });
       
