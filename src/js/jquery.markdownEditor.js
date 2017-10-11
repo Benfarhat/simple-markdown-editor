@@ -9,8 +9,10 @@
 
   // our plugin constructor
   var Plugin = function( elem, options ){
+      
       this.elem = elem;
       this.$elem = $(elem);
+      
       this.options = options;
 
       // This next line takes advantage of HTML5 data attributes
@@ -20,7 +22,7 @@
       this.metadata = this.$elem.data( "plugin-options" );
     };
 
-  // the plugin prototype
+
   Plugin.prototype = {
     defaults: {
       buttons: {
@@ -269,39 +271,250 @@
     },
 
     init: function() {
-      // Introduce defaults that can be extended either
-      // globally or using an object literal.
+      this.validateSelector();
+      
       this.config = $.extend({}, this.defaults, this.options,
       this.metadata);
-
-      // Sample usage:
-      // Set the message per instance:
-      // $('#elem').plugin({ message: 'Goodbye World!'});
-      // or
-      // var p = new Plugin(document.getElementById('elem'),
-      // { message: 'Goodbye World!'}).init()
-      // or, set the global default message:
-      // Plugin.defaults.message = 'Goodbye World!'
+      this.configs = $.extend(true, {}, this.defaults, this.options,
+      this.metadata);
 
       this.createToolbar(this);
+      this.trackSelection();
+      this.trackToolbarClick();
       return this;
     },
+    
+    validateSelector: function() {
 
-    createToolbar: function(el) {
-      // eg. show the currently configured message
-      var config = this.config;
-
-      var toolbar = [], button;
+      if( this.$elem.prop('tagName') != 'TEXTAREA' ) {
+      
+        throw new Error(
+          'Can\'t init MarkdownEditor on ' + 
+          this.$elem.prop('tagName').toLowerCase() + 
+          ' > choose a textarea element.' +
+          ' Usage example: $(\'.classtextarea\').simpleMarkdownEditor()');
+          
+      }      
+    },
+    
+    // Create toolbar
+    // @todo: let the user choose the position (before or after)
+    // @todo: let the user choose the target (not necessary before textarea)
+    createToolbar: function(textarea) {
+    
+      var config = this.config,
+          toolbar = [], 
+          button,
+          element = this.$elem[0];
+          $textarea = textarea.$elem
+          
       $.each( config.buttons, function( key, val ) {
-        button = '<button class="' + config.actionClass + ' ' + val.class + '" data-action="' + key + '" data-target="' + $(this).attr("id") + '" title="' + val.tooltip + '">' + val.title + '</i></button>';
+
+        button = '<button class="' + config.actionClass + ' ' + 
+          val.class + '" data-action="' + key + '" data-target="' + 
+          $textarea.attr("id") + '" title="' + val.tooltip + '">' + 
+          val.title + '</i></button>';
+          
         toolbar.push( button );
       });
+      
       var divToolbar = $( '<div class="' + config.toolbarClass + '"></div>' ).prepend( toolbar );
-      console.table(el);
-      console.table(el.$elem[0]);
-      console.log(divToolbar);
-      el.$elem[0].before( divToolbar[0] );      
-    }
+        
+      element.before( divToolbar[0] );      
+    },
+    
+    
+    trackSelection: function() {
+    
+      var config = this.config;
+      
+      this.$elem.on("select", function(){
+        $(this).attr("data-start",  this.selectionStart);
+        
+        if( config.strictSelection && $(this).val().
+          substring( this.selectionStart,  this.selectionEnd).slice(-1) == " " ){
+          $(this).attr("data-end",  this.selectionEnd - 1);
+        } else {
+          $(this).attr("data-end",  this.selectionEnd);
+        }
+      });
+    },    
+    
+    trackToolbarClick: function() {
+    
+      var config = this.configs;
+
+   
+        $( '.' + config.actionClass ).unbind("click").click(function() {
+        
+          var $btn = $(this)[0];
+     
+
+          var target = $(this).attr('data-target');
+          var editor = $('#' + target);
+          var content = editor.val();
+          var start = editor.attr('data-start');
+          var end = editor.attr('data-end');
+          var sel = editor.val().substring(start, end);
+          
+          console.log(content);
+          console.log(start);
+          console.log(end);
+          console.log(sel);
+          
+          var action = $(this).attr('data-action');
+          var first = config.buttons[action].first;
+          var last = config.buttons[action].last;
+          var check = editor.val().substring(eval(start - parseInt(first.length)), eval(parseInt(start) + parseInt(sel.length) + parseInt(last.length)));
+          
+          var rule = config.buttons[action].rule;
+          var newLine = new RegExp(/(\r\n|\r|\n)/, "g");
+          
+          switch(rule) {
+          
+              case 'inline':
+                    // if the tag (first fragment) is already present then we delete it
+                    if ( check === first + sel + last ) {
+                      var result = editor.val().substring(0, eval(start - first.length)) + sel + editor.val().substring(eval(parseInt(end) + parseInt(last.length)));
+                    } else {
+                      var result = editor.val().substring(0, start) + first + sel + last + editor.val().substring(end);
+                    }
+                  break;
+          
+              case 'inline-reversible':
+                    // if the tage is already present then we delete it
+                    if ( check === first + sel + last ) {
+                      var result = editor.val().substring(0, eval(start - first.length)) + sel + editor.val().substring(eval(parseInt(end) + parseInt(last.length)));
+                    } else {
+                      var result = editor.val().substring(0, start) + first + sel + last + editor.val().substring(end);
+                    }
+                  break;
+                  
+              case 'block':
+                  // When using block, we start the selection from the begining of the current line
+                  for( i = start ; i >= 0; i-- ){
+                      if( ( content.substring( i, i + 1 ) === '\n' ) || ( i === 0 ) ) {
+                        start = ( i == 0 ) ? 0 : i + 1 ;
+                        sel = editor.val().substring(start, end);
+                        // If the first line start with the tag (first fragment) we reverse the function
+                        regex = new RegExp('^' + first.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'));
+                        var reverse = regex.test(sel);
+
+                        if( reverse ) var firstsel = sel.replace(regex, '');
+                        break;
+                      }
+                  }
+                  if( reverse) {
+                    regex = new RegExp('(\r\n|\r|\n)' + first.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
+                    var selblock = firstsel.replace(regex, '$1');
+                    var result = editor.val().substring(0, start) + selblock + editor.val().substring(end);
+                  } else {
+                    var selblock = sel.replace(newLine, '$1' + first);
+                    var result = editor.val().substring(0, start) + first + selblock + last + editor.val().substring(end);
+                  }
+                  
+                  break;
+                  
+              case 'ordered':
+                  for( i = start ; i >= 0; i-- ){
+                      if( ( content.substring( i, i + 1 ) === '\n' ) || ( i === 0 ) ) {
+                        start = ( i == 0 ) ? 0 : i + 1 ;
+                        sel = editor.val().substring(start, end);
+                        break;
+                      }
+                  }
+                  var number = 2;
+                  var selblock = sel.replace(newLine, function() {
+                      number++;
+                      return "\n" + number + ". ";
+                  })
+                  var result = editor.val().substring(0, start) + first + selblock + last + editor.val().substring(end);
+                  break;
+                  
+              case 'back':
+                  for( i = start ; i >= 0; i-- ){
+                      if( ( content.substring( i, i + 1 ) === '\n' ) || ( i === 0 ) ) {
+                        start = ( i == 0 ) ? 0 : i + 1 ;
+                        sel = editor.val().substring(start, end);
+                        var regex = new RegExp('^' + first.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
+                        var firstsel = sel.replace(regex, '');
+
+                        break;
+                      }
+                  }
+                  regex = new RegExp('(\r\n|\r|\n)' + first.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
+                  var selblock = firstsel.replace(regex, '$1');
+                  var result = editor.val().substring(0, start) + selblock + editor.val().substring(end);
+                  break;
+                  
+              case 'table':
+                  var rows = parseInt(prompt(config.buttons[action].promptRows));
+                  var cols = parseInt(prompt(config.buttons[action].promptCols));
+                  if ( isNaN(rows) || isNaN(cols) ) {
+                      alert(config.buttons[action].error);
+                      var result = editor.val();
+                  } else {
+                      rows = rows > config.buttons[action].promptRows ? config.buttons[action].promptRows : rows;
+                      cols = cols > config.buttons[action].promptCols ? config.buttons[action].promptCols : cols;
+                      var table = '';
+                      // headers
+                      for ( j = 1; j <= rows; j++ ) { 
+                        table += '| &nbsp;Header ' + j + ' ';
+                        
+                        switch ( j ) {
+                          case 1 : table += ' - Left-aligned &nbsp; '; 
+                            break;
+                          case rows : table += ' Right-aligned &nbsp; '; 
+                            break; 
+                          default : table += ' Center-aligned &nbsp; ';                    
+                          }
+                        if ( j == rows )
+                          table += '|\n';
+                      }
+                      for ( j = 1; j <= rows; j++ ) {
+                        switch ( j ) {
+                          case 1 : table += '|:--- '; 
+                            break;
+                          case rows : table += '| ---:'; 
+                            break;
+                          default : table += '|:---:';                    
+                          }
+                        if ( j == rows )
+                          table += '|\n';
+                      }
+                      // table
+                      for ( i = 1; i <= cols; i++ ) { 
+                        for ( j = 1; j <= rows; j++ ) { 
+                          table += '| Col'+ i + '-Row' + j + ' ';
+                          if ( j == rows )
+                            table += '|\n';
+                        }
+                      
+                      }
+                      var result = editor.val().substring(0, start) + first + table + last + editor.val().substring(start);
+                  }    
+                  break;
+                  
+              case 'url':
+                  var url = prompt(config.buttons[action].prompt, config.buttons[action].placeholder);
+                  if ( url == null || url == "" ) {
+                      alert(config.buttons[action].error);
+                      var result = editor.val();
+                  } else {
+                      var result = editor.val().substring(0, start) + first + editor.val().substring(start, end) + last + '(' + url + ')' + editor.val().substring(end);
+                  }    
+                  break;
+          } 
+
+          editor.val(result);
+
+        });		    
+    
+    
+    },
+
+    
+    
   }
 
   Plugin.defaults = Plugin.prototype.defaults;

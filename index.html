@@ -222,7 +222,8 @@ ___
     $(document).ready(function () {
       'use strict';
 			
-			$('#myEditor3').simpleMarkdownEditor({
+			$('#myEditor3').simpleMarkdownEditor(
+      /*{
         buttons: {
             bold: { 
                 title: '<i class="fa fa-bold"></i>',  
@@ -252,7 +253,8 @@ ___
                 tooltip: 'Ordered list.' 
             }
             }
-        });
+        }
+      */);
 			$('#myEditor4').simpleMarkdownEditor({
         buttons: {
             // Inline rule - generally wrapped by characters (first and last)
@@ -293,7 +295,7 @@ ___
             }
             }
         });
-			
+	/*		
       $('#myEditor1').mardownEditor();
       
       $('#myEditor2').mardownEditor({
@@ -397,8 +399,9 @@ ___
         $('#preview2').html(converter.makeHtml($(this).val()));
       });
    
-
+  */
     });
+    /*
 		<!-- Synchronize scroll between textarea and previews -->
 		var e1 = document.getElementById('myEditor1');
 		var e2 = document.getElementById('myEditor2');
@@ -414,6 +417,7 @@ ___
 		e2.addEventListener('scroll', sync_scroll_2, false);
 		p1.addEventListener('scroll', sync_scroll_1, false);
 		p2.addEventListener('scroll', sync_scroll_2, false);
+    */
   </script>  
 </body>
 </html>
