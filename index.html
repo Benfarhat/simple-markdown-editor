@@ -31,12 +31,21 @@
 </head>
 
 <body>
-  
+ <textarea id="myEditor3" style="min-height:160px;">
+Donec vel nibh ex. Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. 
+Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus</textarea>
+<textarea id="myEditor4" style="min-height:160px;">
+Donec vel nibh ex. Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. 
+Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus</textarea>
+<textarea id="myEditor5" style="min-height:160px;">
+Donec vel nibh ex. Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. 
+Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus</textarea>
+ 
     <!-- ######## -->
     <!-- MENU NAV -->
     <!-- ######## -->
     
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-topa">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -182,6 +191,8 @@ ___
       </div>
 
     </div>
+
+
     
     <!-- ###### -->
     <!-- FOOTER -->
@@ -205,14 +216,171 @@ ___
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- Simple jQuery Markdown Editor -->
   <script src="src/js/Simple-jQMarkdownEditor.js"></script>
+  <script src="src/js/jquery.markdownEditor.js"></script>
         
   <script type="text/javascript">
     $(document).ready(function () {
       'use strict';
-      $('#myEditor1').mardownEditor({
-      });
+			
+			$('#myEditor3').simpleMarkdownEditor({
+        buttons: {
+            bold: { 
+                title: '<i class="fa fa-bold"></i>',  
+                class: 'btn btn-info', 
+                first: '**', // First fragment > opening tag
+                last: '**', // Last fragment > closing tag
+                hotkey: 'b', // @todo
+                rule: 'inline',
+                tooltip: 'Strong.'
+            },
+            italic: {
+                title: '<i class="fa fa-italic"></i>',
+                class: 'btn btn-info',
+                first: '*',
+                last: '*',
+                hotkey: 'i',
+                rule: 'inline',
+                tooltip: 'Emphasis.'
+            },
+            NumberedList: {
+                title: '<i class="fa fa-list-ol"></i>',
+                class: 'btn btn-danger',
+                first: '1. ',
+                last: '\n',
+                hotkey: 'i',
+                rule: 'ordered',
+                tooltip: 'Ordered list.' 
+            }
+            }
+        });
+			$('#myEditor4').simpleMarkdownEditor({
+        buttons: {
+            // Inline rule - generally wrapped by characters (first and last)
+            
+            italic: {
+                title: '<i class="fa fa-italic"></i>',
+                class: 'btn btn-info',
+                first: '*',
+                last: '*',
+                hotkey: 'i',
+                rule: 'inline',
+                tooltip: 'Emphasis.'
+            },
+            NumberedList: {
+                title: '<i class="fa fa-list-ol"></i>',
+                class: 'btn btn-danger',
+                first: '1. ',
+                last: '\n',
+                hotkey: 'i',
+                rule: 'ordered',
+                tooltip: 'Ordered list.' 
+            }
+            }
+        });
+				
+			$('#myEditor5').simpleMarkdownEditor({
+        buttons: {
+            // Inline rule - generally wrapped by characters (first and last)
+            
+            BullettedList: {
+                title: '<i class="fa fa-list-ul"></i>',
+                class: 'btn btn-danger',
+                first: '* ',
+                last: '\n',
+                hotkey: 'i',
+                rule: 'block',
+                tooltip: 'Unordered list.' 
+            }
+            }
+        });
+			
+      $('#myEditor1').mardownEditor();
       
       $('#myEditor2').mardownEditor({
+			
+
+            buttons: {
+              // Inline rule - generally wrapped by characters (first and last)
+              bold: { 
+                title: '<i class="fa fa-bold"></i>',  
+                class: 'btn btn-info', 
+                first: '**', // First fragment > opening tag
+                last: '**', // Last fragment > closing tag
+                hotkey: 'b', // @todo
+                rule: 'inline',
+                tooltip: 'Strong.'
+              },
+              italic: {
+                title: '<i class="fa fa-italic"></i>',
+                class: 'btn btn-info',
+                first: '*',
+                last: '*',
+                hotkey: 'i',
+                rule: 'inline',
+                tooltip: 'Emphasis.'
+              },
+              NumberedList: {
+                title: '<i class="fa fa-list-ol"></i>',
+                class: 'btn btn-danger',
+                first: '1. ',
+                last: '\n',
+                hotkey: 'i',
+                rule: 'ordered',
+                tooltip: 'Ordered list.' 
+              },
+              BullettedList: {
+                title: '<i class="fa fa-list-ul"></i>',
+                class: 'btn btn-danger',
+                first: '* ',
+                last: '\n',
+                hotkey: 'i',
+                rule: 'block',
+                tooltip: 'Unordered list.' 
+              },
+              h1: {
+                title: 'H1', 
+                class: 'btn btn-primary',
+                first: '# ',
+                last: '',
+                hotkey: '1',
+                rule: 'block', // @todo special rule for alternative headers ===
+                tooltip: 'Header lvl 1.' 
+              },
+              h2: {
+                title: 'H2',
+                class: 'btn btn-primary',
+                first: '## ',
+                last: '',
+                hotkey: '2',
+                rule: 'block', // @todo special rule for alternative headers ---
+                tooltip: 'Header lvl 2.' 
+              },
+              hr: {
+                title: '<i class="fa fa-minus"></i>',
+                class: 'btn',
+                first: '\n___\n',
+                last: '',
+                hotkey: '6',
+                rule: 'inline',
+                tooltip: 'Horizontal rule.' 
+              },
+							links : {
+                title: '<i class="fa fa-link"></i>',
+                class: 'btn btn-success',
+                first: '[',
+                last: ']',
+                hotkey: '6',
+                rule: 'url',
+                tooltip: 'Insert link.',
+                prompt: 'Please enter a url.',
+                error: 'User cancelled the prompt.',
+                placeholder: 'http://'
+              },
+            },
+            actionClass: "markdowneditor",
+            toolbarClass: "toolbar2", // wrapping div
+            strictSelection: true 			
+			
       });
  
       var converter = new showdown.Converter();    

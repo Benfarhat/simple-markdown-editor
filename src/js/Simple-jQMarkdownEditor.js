@@ -1,11 +1,42 @@
-(function ( $ ) { // Immediately Invoked Function Expression :)
+; (function ( $, window, document, undefined) { // Immediately Invoked Function Expression :)
  
     $.fn.mardownEditor = function( options ) {
-        // @see: http://spec.commonmark.org/
-        // @see: https://tools.ietf.org/html/rfc7763
-        // @see: https://tools.ietf.org/html/rfc7764
-        // @see: https://help.github.com/articles/basic-writing-and-formatting-syntax/
-        var opt = $.extend({
+
+		var pluginName = 'mardownEditor',
+			defaults = {
+				propertyName: "value"
+			};
+
+		// The actual plugin constructor
+		function Plugin( element, options ) {
+			this.element = element;
+
+			// jQuery has an extend method that merges the 
+			// contents of two or more objects, storing the 
+			// result in the first object. The first object 
+			// is generally empty because we don't want to alter 
+			// the default options for future instances of the plugin
+			this.options = $.extend( {}, defaults, options) ;
+			
+			this._defaults = defaults;
+			this._name = pluginName;
+			
+			this.init();
+		}
+
+		Plugin.prototype.init = function () {
+			// Place initialization logic here
+			// You already have access to the DOM element and
+			// the options via the instance, e.g. this.element 
+			// and this.options
+		};
+
+		
+		
+		
+		
+			
+        this.defaultOptions = {
             // These are the defaults.
             buttons: {
               // Inline rule - generally wrapped by characters (first and last)
@@ -250,9 +281,20 @@
             actionClass: "markdowneditor",
             toolbarClass: "toolbar", // wrapping div
             strictSelection: true // delete/split space from the end
-        }, options );
-        
-        var editor = this;
+        };
+		
+		//if (options) defaultOptions = {};
+		var opt = $.extend({}, this.defaultOptions, options );
+		 
+		// console.table(options);
+		// -------------------------------------------------------
+		
+		//console.log(opt.buttons);
+		
+		return this.each(function(i, el){
+			
+
+        var editor =  $(el);
         var id = $(this).attr("id");
       
         // Add buttons
@@ -262,24 +304,27 @@
           toolbar.push( button );
         });
         var divToolbar = $( '<div class="' + opt.toolbarClass + '"></div>' ).prepend( toolbar );
-        this.before( divToolbar );
+        $(el).before( divToolbar );
+		
+	
         
         // Save selection or cursor position
-        // if we click somewhere else, textarea lost focus and selection so we need to save the start and end point inside custom textarea attributes
-        // when we double click on a word to select it, the word is select with the space that follows it.
-        // note that if opt.strictSelection == true > prevent this selection
-        this.on("select focusout", function(){
-          $(this).attr("data-start", this.selectionStart);
-          if( opt.strictSelection && $(this).val().substring(this.selectionStart, this.selectionEnd).slice(-1) == " " ){
-            $(this).attr("data-end", this.selectionEnd - 1);
+         $(el).on("select", function(){
+          $(el).attr("data-start",  el.selectionStart);
+          if( opt.strictSelection && $(el).val().substring( el.selectionStart,  el.selectionEnd).slice(-1) == " " ){
+            $(el).attr("data-end",  el.selectionEnd - 1);
           } else {
-            $(this).attr("data-end", this.selectionEnd);
+            $(el).attr("data-end",  el.selectionEnd);
           }
+		 
         });
         
         // On toolbar click     
         $( '.' + opt.actionClass ).unbind("click").click(function() {
-        
+		  console.log(opt.actionClass);
+		  console.log($(this));
+		 // console.log(el.opt.buttons);
+		  console.log(opt.buttons);
           var target = $(this).attr('data-target');
           var editor = $('#' + target);
           var content = editor.val();
@@ -430,42 +475,19 @@
                   }    
                   break;
           } 
-          
-          /*
-          @todo 
 
-
-          les retours
-          
-          
-          
-          
-          
-          
-          
-          */
           
           editor.val(result);
           editor.focus();
           editor.selectionStart = start;
           editor.selectionEnd = end;
-          console.log(start);
-          console.log(end);
-          
-          /*
-          console.log(editor);
-          console.log(sel);
-          console.log(action);
-          */
+//          console.log(start);
+//          console.log(end);
 
-        });
-        /*
-        return this.css({
-            color: opt.color,
-            backgroundColor: opt.backgroundColor
-        });
-        */
- 
+        });			
+			
+		});
+
     };
  
-}( jQuery ));
+}( jQuery, window, document ));
