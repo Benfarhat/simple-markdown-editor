@@ -31,16 +31,7 @@
 </head>
 
 <body>
- <textarea id="myEditor3" style="min-height:160px;">
-Donec vel nibh ex. Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. 
-Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus</textarea>
-<textarea id="myEditor4" style="min-height:160px;">
-Donec vel nibh ex. Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. 
-Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus</textarea>
-<textarea id="myEditor5" style="min-height:160px;">
-Donec vel nibh ex. Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. 
-Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus</textarea>
- 
+  
     <!-- ######## -->
     <!-- MENU NAV -->
     <!-- ######## -->
@@ -222,83 +213,10 @@ ___
     $(document).ready(function () {
       'use strict';
 			
-			$('#myEditor3').simpleMarkdownEditor(
-      /*{
-        buttons: {
-            bold: { 
-                title: '<i class="fa fa-bold"></i>',  
-                class: 'btn btn-info', 
-                first: '**', // First fragment > opening tag
-                last: '**', // Last fragment > closing tag
-                hotkey: 'b', // @todo
-                rule: 'inline',
-                tooltip: 'Strong.'
-            },
-            italic: {
-                title: '<i class="fa fa-italic"></i>',
-                class: 'btn btn-info',
-                first: '*',
-                last: '*',
-                hotkey: 'i',
-                rule: 'inline',
-                tooltip: 'Emphasis.'
-            },
-            NumberedList: {
-                title: '<i class="fa fa-list-ol"></i>',
-                class: 'btn btn-danger',
-                first: '1. ',
-                last: '\n',
-                hotkey: 'i',
-                rule: 'ordered',
-                tooltip: 'Ordered list.' 
-            }
-            }
-        }
-      */);
-			$('#myEditor4').simpleMarkdownEditor({
-        buttons: {
-            // Inline rule - generally wrapped by characters (first and last)
-            
-            italic: {
-                title: '<i class="fa fa-italic"></i>',
-                class: 'btn btn-info',
-                first: '*',
-                last: '*',
-                hotkey: 'i',
-                rule: 'inline',
-                tooltip: 'Emphasis.'
-            },
-            NumberedList: {
-                title: '<i class="fa fa-list-ol"></i>',
-                class: 'btn btn-danger',
-                first: '1. ',
-                last: '\n',
-                hotkey: 'i',
-                rule: 'ordered',
-                tooltip: 'Ordered list.' 
-            }
-            }
-        });
-				
-			$('#myEditor5').simpleMarkdownEditor({
-        buttons: {
-            // Inline rule - generally wrapped by characters (first and last)
-            
-            BullettedList: {
-                title: '<i class="fa fa-list-ul"></i>',
-                class: 'btn btn-danger',
-                first: '* ',
-                last: '\n',
-                hotkey: 'i',
-                rule: 'block',
-                tooltip: 'Unordered list.' 
-            }
-            }
-        });
-	/*		
-      $('#myEditor1').mardownEditor();
       
-      $('#myEditor2').mardownEditor({
+      $('#myEditor1').simpleMarkdownEditor();
+      
+      $('#myEditor2').simpleMarkdownEditor({
 			
 
             buttons: {
@@ -399,9 +317,8 @@ ___
         $('#preview2').html(converter.makeHtml($(this).val()));
       });
    
-  */
-    });
-    /*
+   
+ 
 		<!-- Synchronize scroll between textarea and previews -->
 		var e1 = document.getElementById('myEditor1');
 		var e2 = document.getElementById('myEditor2');
@@ -416,8 +333,11 @@ ___
 		e1.addEventListener('scroll', sync_scroll_1, false);
 		e2.addEventListener('scroll', sync_scroll_2, false);
 		p1.addEventListener('scroll', sync_scroll_1, false);
-		p2.addEventListener('scroll', sync_scroll_2, false);
-    */
+		p2.addEventListener('scroll', sync_scroll_2, false);  
+
+    });
+
+
   </script>  
 </body>
 </html>

@@ -357,15 +357,12 @@
           var end = editor.attr('data-end');
           var sel = editor.val().substring(start, end);
           
-          console.log(content);
-          console.log(start);
-          console.log(end);
-          console.log(sel);
-          
+
           var action = $(this).attr('data-action');
           var first = config.buttons[action].first;
           var last = config.buttons[action].last;
-          var check = editor.val().substring(eval(start - parseInt(first.length)), eval(parseInt(start) + parseInt(sel.length) + parseInt(last.length)));
+          var check = editor.val().substring(eval(start - parseInt(first.length)),
+            eval(parseInt(start) + parseInt(sel.length) + parseInt(last.length)));
           
           var rule = config.buttons[action].rule;
           var newLine = new RegExp(/(\r\n|\r|\n)/, "g");
@@ -375,18 +372,22 @@
               case 'inline':
                     // if the tag (first fragment) is already present then we delete it
                     if ( check === first + sel + last ) {
-                      var result = editor.val().substring(0, eval(start - first.length)) + sel + editor.val().substring(eval(parseInt(end) + parseInt(last.length)));
+                      var result = editor.val().substring(0, eval(start - first.length)) + 
+                        sel + editor.val().substring(eval(parseInt(end) + parseInt(last.length)));
                     } else {
-                      var result = editor.val().substring(0, start) + first + sel + last + editor.val().substring(end);
+                      var result = editor.val().substring(0, start) + first + sel + last + 
+                        editor.val().substring(end);
                     }
                   break;
           
               case 'inline-reversible':
                     // if the tage is already present then we delete it
                     if ( check === first + sel + last ) {
-                      var result = editor.val().substring(0, eval(start - first.length)) + sel + editor.val().substring(eval(parseInt(end) + parseInt(last.length)));
+                      var result = editor.val().substring(0, eval(start - first.length)) + sel + 
+                        editor.val().substring(eval(parseInt(end) + parseInt(last.length)));
                     } else {
-                      var result = editor.val().substring(0, start) + first + sel + last + editor.val().substring(end);
+                      var result = editor.val().substring(0, start) + first + sel + last + 
+                        editor.val().substring(end);
                     }
                   break;
                   
@@ -397,7 +398,8 @@
                         start = ( i == 0 ) ? 0 : i + 1 ;
                         sel = editor.val().substring(start, end);
                         // If the first line start with the tag (first fragment) we reverse the function
-                        regex = new RegExp('^' + first.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'));
+                        regex = new RegExp('^' + first.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, 
+                          '\\$&'));
                         var reverse = regex.test(sel);
 
                         if( reverse ) var firstsel = sel.replace(regex, '');
@@ -405,12 +407,15 @@
                       }
                   }
                   if( reverse) {
-                    regex = new RegExp('(\r\n|\r|\n)' + first.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
+                    regex = new RegExp('(\r\n|\r|\n)' + first
+                      .replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
                     var selblock = firstsel.replace(regex, '$1');
-                    var result = editor.val().substring(0, start) + selblock + editor.val().substring(end);
+                    var result = editor.val().substring(0, start) + selblock + 
+                      editor.val().substring(end);
                   } else {
                     var selblock = sel.replace(newLine, '$1' + first);
-                    var result = editor.val().substring(0, start) + first + selblock + last + editor.val().substring(end);
+                    var result = editor.val().substring(0, start) + first + selblock + last + 
+                      editor.val().substring(end);
                   }
                   
                   break;
@@ -428,7 +433,8 @@
                       number++;
                       return "\n" + number + ". ";
                   })
-                  var result = editor.val().substring(0, start) + first + selblock + last + editor.val().substring(end);
+                  var result = editor.val().substring(0, start) + first + selblock + last + 
+                    editor.val().substring(end);
                   break;
                   
               case 'back':
@@ -436,15 +442,18 @@
                       if( ( content.substring( i, i + 1 ) === '\n' ) || ( i === 0 ) ) {
                         start = ( i == 0 ) ? 0 : i + 1 ;
                         sel = editor.val().substring(start, end);
-                        var regex = new RegExp('^' + first.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
+                        var regex = new RegExp('^' + first
+                          .replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
                         var firstsel = sel.replace(regex, '');
 
                         break;
                       }
                   }
-                  regex = new RegExp('(\r\n|\r|\n)' + first.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
+                  regex = new RegExp('(\r\n|\r|\n)' + first
+                    .replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
                   var selblock = firstsel.replace(regex, '$1');
-                  var result = editor.val().substring(0, start) + selblock + editor.val().substring(end);
+                  var result = editor.val().substring(0, start) + selblock + 
+                    editor.val().substring(end);
                   break;
                   
               case 'table':
@@ -491,17 +500,21 @@
                         }
                       
                       }
-                      var result = editor.val().substring(0, start) + first + table + last + editor.val().substring(start);
+                      var result = editor.val().substring(0, start) + first + table + last + 
+                        editor.val().substring(start);
                   }    
                   break;
                   
               case 'url':
-                  var url = prompt(config.buttons[action].prompt, config.buttons[action].placeholder);
+                  var url = prompt(config.buttons[action].prompt, 
+                    config.buttons[action].placeholder);
                   if ( url == null || url == "" ) {
                       alert(config.buttons[action].error);
                       var result = editor.val();
                   } else {
-                      var result = editor.val().substring(0, start) + first + editor.val().substring(start, end) + last + '(' + url + ')' + editor.val().substring(end);
+                      var result = editor.val().substring(0, start) + first + 
+                        editor.val().substring(start, end) + last + '(' + url + ')' + 
+                          editor.val().substring(end);
                   }    
                   break;
           } 
