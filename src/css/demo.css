@@ -12,7 +12,7 @@ body {
   background-color: #ddd;
 }
 .second{
-  background-color: #bbb;
+  background-color: #ccc;
   padding-bottom: 24px;
 }
 .toolbar{
@@ -36,4 +36,36 @@ textarea{
 }
 footer p{
   text-align: center;
+}
+.btn-group-vertical > .btn:last-child:not(:first-child), .btn-group-vertical > .btn:first-child:not(:last-child), button.btn, btn{
+	border-radius: 0;
+}
+/*
+ * Demo 2
+ */
+#test-toolbar{
+	width:100%;
+}
+#test-toolbar button.btn{
+	display:block;
+}
+.no-gap{
+	margin-right:0;
+	margin-left:0;
+	padding-right:0;
+	padding-left:0;
+}
+.no-gap-left{
+	margin-left:0;
+	padding-left:0;
+}
+.no-gap-left > *{
+	margin-left:0;
+}
+.no-gap-right{
+	margin-right:0;
+	padding-right:0;
+}
+.no-gap-right > *{
+	margin-right:0;
 }

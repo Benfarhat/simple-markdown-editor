@@ -37,7 +37,7 @@
     <!-- ######## -->
     
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
+      <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -69,7 +69,7 @@
     <!-- ########### -->
     
     <div class="jumbotron">
-      <div class="container">
+      <div class="container-fluid">
         <h1># Hello, world!</h1>
         <p>Just a simple **Markdown** editor made with <i class="fa fa-heart text-danger"></i> and ~~some coffee~~, hope you like it!</p>
         <p>Turn easily any textarea into a customizable Markdown Editor</p>
@@ -81,10 +81,10 @@
     <!-- ############## -->
     
     <div class="container-fluid first">
-      <!-- Example row of columns -->
+
       <div class="row">
         <div class="col-md-6">
-          <h2>Demo 1</h2>
+          <h2>Demo 1 <small>[Full options]</small></h2>
        
           <hr>
           <textarea id="myEditor1"># Header 1
@@ -154,10 +154,22 @@ ___
   
     <div class="container-fluid second">
       <div class="row">
+			
         <div class="col-md-6">
-          <h2>Demo 2</h2>
-          <hr>
-          <textarea id="myEditor2"># Lorem ipsum dolor sit amet, 
+					<div class="row-fluid">
+						<div class="col-md-12">
+							<h2>Demo 2 <small>[Minimalist with custom toolbar container]</small></h2>
+							<hr>
+						</div>
+					</div>
+				
+					<div class="row-fluid">
+						<div class="col-md-2 no-gap-right">
+							<div class="btn-group-vertical" id="test-toolbar">
+							</div>
+						</div>
+						<div class="col-md-10 no-gap-left">
+							<textarea id="myEditor2"># Lorem ipsum dolor sit amet, 
           
 ## consectetur
 
@@ -171,6 +183,8 @@ ___
 ~~~Aenean tellus ligula~~~, egestas ut sapien quis, euismod laoreet risus. Donec vel nibh ex. Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus. Duis volutpat felis mauris, sit amet porttitor ex venenatis ut. 
 
 > Sed rhoncus tortor quis metus maximus suscipit. Aliquam at varius purus.</textarea>
+						</div>
+					</div>
         </div>
         <div class="col-md-6">
           <h2>Preview 2</h2>
@@ -182,6 +196,8 @@ ___
       </div>
 
     </div>
+
+
     
     <!-- ###### -->
     <!-- FOOTER -->
@@ -205,14 +221,102 @@ ___
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- Simple jQuery Markdown Editor -->
   <script src="src/js/Simple-jQMarkdownEditor.js"></script>
+  <script src="src/js/jquery.markdownEditor.js"></script>
         
   <script type="text/javascript">
     $(document).ready(function () {
       'use strict';
-      $('#myEditor1').mardownEditor({
-      });
+			
       
-      $('#myEditor2').mardownEditor({
+      $('#myEditor1').simpleMarkdownEditor();
+      
+      $('#myEditor2').simpleMarkdownEditor({
+			
+
+            buttons: {
+              // Inline rule - generally wrapped by characters (first and last)
+              
+              h1: {
+                title: 'Header H1', 
+                class: 'btn btn-primary',
+                first: '# ',
+                last: '',
+                hotkey: '1',
+                rule: 'block', // @todo special rule for alternative headers ===
+                tooltip: 'Header lvl 1.' 
+              },
+              h2: {
+                title: 'Header H2',
+                class: 'btn btn-primary',
+                first: '## ',
+                last: '',
+                hotkey: '2',
+                rule: 'block', // @todo special rule for alternative headers ---
+                tooltip: 'Header lvl 2.' 
+              },
+							bold: { 
+                title: '<i class="fa fa-bold"></i> Bold',  
+                class: 'btn btn-info', 
+                first: '**', // First fragment > opening tag
+                last: '**', // Last fragment > closing tag
+                hotkey: 'b', // @todo
+                rule: 'inline',
+                tooltip: 'Strong.'
+              },
+              italic: {
+                title: '<i class="fa fa-italic"></i> Italic',
+                class: 'btn btn-info',
+                first: '*',
+                last: '*',
+                hotkey: 'i',
+                rule: 'inline',
+                tooltip: 'Emphasis.'
+              },
+              NumberedList: {
+                title: '<i class="fa fa-list-ol"></i> Ordered list',
+                class: 'btn btn-danger',
+                first: '1. ',
+                last: '\n',
+                hotkey: 'i',
+                rule: 'ordered',
+                tooltip: 'Ordered list.' 
+              },
+              BullettedList: {
+                title: '<i class="fa fa-list-ul"></i> Unordered list',
+                class: 'btn btn-danger',
+                first: '* ',
+                last: '\n',
+                hotkey: 'i',
+                rule: 'block',
+                tooltip: 'Unordered list.' 
+              },
+              hr: {
+                title: '<i class="fa fa-minus"></i> Line',
+                class: 'btn',
+                first: '\n___\n',
+                last: '',
+                hotkey: '6',
+                rule: 'inline',
+                tooltip: 'Horizontal rule.' 
+              },
+							links : {
+                title: '<i class="fa fa-link"></i> Link',
+                class: 'btn btn-success',
+                first: '[',
+                last: ']',
+                hotkey: '6',
+                rule: 'url',
+                tooltip: 'Insert link.',
+                prompt: 'Please enter a url.',
+                error: 'User cancelled the prompt.',
+                placeholder: 'http://'
+              },
+            },
+            buttonClass: "markdowneditor",
+            toolbarContainer: "#test-toolbar", 
+            toolbarClass: "toolbar2", // wrapping div
+            strictSelection: true 			
+			
       });
  
       var converter = new showdown.Converter();    
@@ -229,8 +333,8 @@ ___
         $('#preview2').html(converter.makeHtml($(this).val()));
       });
    
-
-    });
+   
+ 
 		<!-- Synchronize scroll between textarea and previews -->
 		var e1 = document.getElementById('myEditor1');
 		var e2 = document.getElementById('myEditor2');
@@ -245,7 +349,11 @@ ___
 		e1.addEventListener('scroll', sync_scroll_1, false);
 		e2.addEventListener('scroll', sync_scroll_2, false);
 		p1.addEventListener('scroll', sync_scroll_1, false);
-		p2.addEventListener('scroll', sync_scroll_2, false);
+		p2.addEventListener('scroll', sync_scroll_2, false);  
+
+    });
+
+
   </script>  
 </body>
 </html>
