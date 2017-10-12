@@ -382,8 +382,10 @@ preformatted: {
                 placeholder: 'https://raw.githubusercontent.com/indievox-inc/iNDIEVOX-Web-Profile/master/image/github-logo.jpg'
               },
             },
-            actionClass: "markdowneditor",
-            toolbarClass: "toolbar", // wrapping div
-            strictSelection: true // delete/split space from the end
+		  buttonTag: "button",
+		  buttonClass: "markdowneditor",
+		  toolbarContainer: null, 
+		  toolbarClass: "toolbar",
+		  strictSelection: true
 
 2017 🖥 Benfarhat Elyes
