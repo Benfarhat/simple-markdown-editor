@@ -266,6 +266,7 @@
         },
       },
       actionClass: "markdowneditor",
+      toolbarContainer: null, // wrapping div
       toolbarClass: "toolbar", // wrapping div
       strictSelection: true // delete/split space from the end
     },
@@ -318,9 +319,15 @@
         toolbar.push( button );
       });
       
-      var divToolbar = $( '<div class="' + config.toolbarClass + '"></div>' ).prepend( toolbar );
+      if(config.toolbarContainer) {
+        console.log(config.toolbarContainer);
+        console.log($(config.toolbarContainer));
+        $(config.toolbarContainer).prepend( toolbar );
+      } else {
+        var divToolbar = $( '<div class="' + config.toolbarClass + '"></div>' ).prepend( toolbar );
         
-      element.before( divToolbar[0] );      
+        element.before( divToolbar[0] );   
+      }
     },
     
     
