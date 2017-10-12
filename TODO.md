@@ -7,10 +7,10 @@
 #### Enhancements
 - [ ] Add a **fullscreen** button
 - [ ] Add toolbar **separator** (between buttons)
-- [ ] Toolbar **fixed to top**
+- [x] Toolbar **fixed to top**
 - [x] Add an **underline** button
 - [ ] Add **emoji** 
-- [ ] **Refactor** js code
+- [x] **Refactor** js code
 - [ ] Add **hotkey** support
 - [ ] **open/load files** to editor?
 - [ ] **save** work to file
