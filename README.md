@@ -54,7 +54,7 @@ If you want to render your mardown text i suggest you to use [Showdown](https://
                 rule: 'block', // @todo special rule for alternative headers ---
                 tooltip: 'Header lvl 2.' 
               },
-							bold: { 
+			  bold: { 
                 title: '<i class="fa fa-bold"></i> Bold',  
                 class: 'btn btn-info', 
                 first: '**', // First fragment > opening tag
@@ -94,7 +94,7 @@ If you want to render your mardown text i suggest you to use [Showdown](https://
                 rule: 'inline',
                 tooltip: 'Horizontal rule.' 
               },
-							links : {
+			  links : {
                 title: '<i class="fa fa-link"></i> Link',
                 class: 'btn btn-success',
                 first: '[',
