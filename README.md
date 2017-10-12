@@ -14,7 +14,7 @@ You just need to add jQMardownEditor script with jQuery
 <!-- jQuery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script></script>
 <!-- Simple jQuery Markdown Editor -->
-<script src="src/js/Simple-jQMarkdownEditor.js"></script>
+<script src="src/js/jquery.markdownEditor.js"></script>
 ```
 
 If you want to render your mardown text i suggest you to use [Showdown](https://github.com/showdownjs/showdown):
@@ -30,11 +30,89 @@ If you want to render your mardown text i suggest you to use [Showdown](https://
 ```
 <script type="text/javascript">
   $(document).ready(function () {
-    $('#myEditor1').mardownEditor({
-    });
+      $('#myEditor1').simpleMarkdownEditor();
+      
+      $('#myEditor2').simpleMarkdownEditor({
+			
 
-    $('#myEditor2').mardownEditor({
-    });
+            buttons: {
+              // Inline rule - generally wrapped by characters (first and last)
+              
+              h1: {
+                title: 'Header H1', 
+                class: 'btn btn-primary',
+                first: '# ',
+                last: '',
+                rule: 'block', // @todo special rule for alternative headers ===
+                tooltip: 'Header lvl 1.' 
+              },
+              h2: {
+                title: 'Header H2',
+                class: 'btn btn-primary',
+                first: '## ',
+                last: '',
+                rule: 'block', // @todo special rule for alternative headers ---
+                tooltip: 'Header lvl 2.' 
+              },
+							bold: { 
+                title: '<i class="fa fa-bold"></i> Bold',  
+                class: 'btn btn-info', 
+                first: '**', // First fragment > opening tag
+                last: '**', // Last fragment > closing tag
+                rule: 'inline',
+                tooltip: 'Strong.'
+              },
+              italic: {
+                title: '<i class="fa fa-italic"></i> Italic',
+                class: 'btn btn-info',
+                first: '*',
+                last: '*',
+                rule: 'inline',
+                tooltip: 'Emphasis.'
+              },
+              NumberedList: {
+                title: '<i class="fa fa-list-ol"></i> Ordered list',
+                class: 'btn btn-danger',
+                first: '1. ',
+                last: '\n',
+                rule: 'ordered',
+                tooltip: 'Ordered list.' 
+              },
+              BullettedList: {
+                title: '<i class="fa fa-list-ul"></i> Unordered list',
+                class: 'btn btn-danger',
+                first: '* ',
+                last: '\n',
+                rule: 'block',
+                tooltip: 'Unordered list.' 
+              },
+              hr: {
+                title: '<i class="fa fa-minus"></i> Line',
+                class: 'btn',
+                first: '\n___\n',
+                last: '',
+                rule: 'inline',
+                tooltip: 'Horizontal rule.' 
+              },
+							links : {
+                title: '<i class="fa fa-link"></i> Link',
+                class: 'btn btn-success',
+                first: '[',
+                last: ']',
+                rule: 'url',
+                tooltip: 'Insert link.',
+                prompt: 'Please enter a url.',
+                error: 'User cancelled the prompt.',
+                placeholder: 'http://'
+              },
+            },
+            buttonClass: "markdowneditor",
+            toolbarContainer: "#test-toolbar", 
+            toolbarClass: "toolbar2", // wrapping div
+            strictSelection: true 			
+			
+      });
+ 
 
   });
 </script>
@@ -47,7 +125,9 @@ If you want to render your mardown text i suggest you to use [Showdown](https://
 
 * `buttons` : (array) a list of buttons to use in your markdown editor toolbar.
 the initial state of the managed object. If not call the default initial state is NULL
-* `actionClass`: common classname for all your buttons (default to `markdowneditor`),
+* `buttonTag`: Common tag for all your menu elements elements (default to `button`),
+* `buttonClass`: common classname for all your menu elements (default to `markdowneditor`),
+* `toolbarContainer`: classname for your toolbar (default to `null` > Insert before your textarea),
 * `toolbarClass`: classname for your toolbar (default to `toolbar`),
 * `strictSelection`: (boolean) if true it delete/split space from the end or your selection
 
