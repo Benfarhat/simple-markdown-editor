@@ -317,8 +317,6 @@
       });
       
       if(config.toolbarContainer) {
-        console.log(config.toolbarContainer);
-        console.log($(config.toolbarContainer));
         $(config.toolbarContainer).prepend( toolbar );
       } else {
         var divToolbar = $( '<div class="' + config.toolbarClass + '"></div>' ).prepend( toolbar );
@@ -331,6 +329,35 @@
     trackSelection: function() {
     
       var config = this.config;
+          
+      this.$elem.unbind("keydown click focus").on('keydown click focus', function(){
+
+        var el = $(this).get(0);
+        var pos = 0;
+        if('selectionStart' in el) {
+            pos = el.selectionStart;
+            
+            $(this).attr("data-start", pos);
+            // $(this).attr("data-end", el.selectionEnd);
+            if( config.strictSelection && $(this).val().
+              substring( pos,  el.selectionEnd).slice(-1) == " " ){
+              $(this).attr("data-end",  this.selectionEnd - 1);
+              el.selectionEnd = this.selectionEnd - 1;
+            } else {
+              $(this).attr("data-end",  el.selectionEnd);
+            }            
+        } else if('selection' in document) {
+            el.focus();
+            var Sel = document.selection.createRange();
+            var SelLength = document.selection.createRange().text.length;
+            Sel.moveStart('character', -el.value.length);
+            pos = Sel.text.length - SelLength;
+            $(this).attr("data-start", pos);
+            
+            $(this).attr("data-end", parseInt(pos) + parseInt(SelLength));
+        }
+      
+      });
       
       this.$elem.on("select", function(){
         $(this).attr("data-start",  this.selectionStart);
@@ -338,11 +365,12 @@
         if( config.strictSelection && $(this).val().
           substring( this.selectionStart,  this.selectionEnd).slice(-1) == " " ){
           $(this).attr("data-end",  this.selectionEnd - 1);
+          this.selectionEnd = this.selectionEnd - 1;
         } else {
           $(this).attr("data-end",  this.selectionEnd);
         }
       });
-    },    
+    }, 
     
     trackToolbarClick: function() {
     
@@ -367,7 +395,7 @@
           
           var rule = config.buttons[action].rule;
           var newLine = new RegExp(/(\r\n|\r|\n)/, "g");
-          var result, selblock, i, j, reverse, regex, firstsel; 
+          var result, selblock, i, j, reverse, regex, firstsel, count; 
           switch(rule) {
           
               case 'inline':
@@ -375,50 +403,50 @@
                     if ( check === first + sel + last ) {
                       result = editor.val().substring(0, start - first.length) + 
                         sel + editor.val().substring(parseInt(end) + parseInt(last.length));
+                        
+                      start = parseInt(start) - parseInt(first.length);
+                      end = parseInt(end) - parseInt(first.length);
                     } else {
                       result = editor.val().substring(0, start) + first + sel + last + 
                         editor.val().substring(end);
+                      
+                      start = parseInt(start) + parseInt(first.length);
+                      end = parseInt(end) + parseInt(first.length);
                     }
+                    
                   break;
-          
-              case 'inline-reversible':
-                    // if the tage is already present then we delete it
-                    if ( check === first + sel + last ) {
-                      result = editor.val().substring(0, start - first.length) + sel + 
-                        editor.val().substring(parseInt(end) + parseInt(last.length));
-                    } else {
-                      result = editor.val().substring(0, start) + first + sel + last + 
-                        editor.val().substring(end);
-                    }
-                  break;
+
                   
               case 'block':
-                  // When using block, we start the selection from the begining of the current line
-                  for( i = start ; i >= 0; i-- ){
-                      if( ( content.substring( i, i + 1 ) === '\n' ) || ( i === 0 ) ) {
-                        start = ( i == 0 ) ? 0 : i + 1 ;
-                        sel = editor.val().substring(start, end);
-                        // If the first line start with the tag (first fragment) we reverse the function
-                        regex = new RegExp('^' + first.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, 
-                          '\\$&'));
-                        reverse = regex.test(sel);
+                  start = content.lastIndexOf("\n", start) + 1;
+                  end = content.indexOf("\n", end);
+                  sel = editor.val().substring(start, end);
 
-                        if( reverse ) firstsel = sel.replace(regex, '');
-                        break;
-                      }
-                  }
-                  if( reverse) {
+                  regex = new RegExp('^' + first.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, 
+                    '\\$&'));
+                  reverse = regex.test(sel);
+
+                  if( reverse) { 
+                    firstsel = sel.replace(regex, '');
                     regex = new RegExp('(\r\n|\r|\n)' + first
                       .replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
                     selblock = firstsel.replace(regex, '$1');
+                    
+                    count = (firstsel.match(regex)).length;
+                    
                     result = editor.val().substring(0, start) + selblock + 
                       editor.val().substring(end);
+                      
+                    end = parseInt(end) - parseInt(first.length * parseInt(count + 1));
                   } else {
                     selblock = sel.replace(newLine, '$1' + first);
+                    count = (sel.match(newLine)).length;
+                    
                     result = editor.val().substring(0, start) + first + selblock + last + 
                       editor.val().substring(end);
+                    end = parseInt(end) + parseInt(first.length * parseInt(count + 1));
                   }
-                  
+                    
                   break;
                   
               case 'ordered':
@@ -439,22 +467,26 @@
                   break;
                   
               case 'back':
-                  for( i = start ; i >= 0; i-- ){
-                      if( ( content.substring( i, i + 1 ) === '\n' ) || ( i === 0 ) ) {
-                        start = ( i == 0 ) ? 0 : i + 1 ;
-                        sel = editor.val().substring(start, end);
-                        regex = new RegExp('^' + first
-                          .replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
-                        firstsel = sel.replace(regex, '');
-
-                        break;
-                      }
-                  }
-                  regex = new RegExp('(\r\n|\r|\n)' + first
-                    .replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
-                  selblock = firstsel.replace(regex, '$1');
+              
+                  start = content.lastIndexOf("\n", start) + 1;
+                  end = content.indexOf("\n", end);
+                  sel = editor.val().substring(start, end);
+ 
+                  regex = new RegExp('(^|\r\n|\r|\n)' + first
+                          .replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');  
+                          
+                  
+                  selblock = sel.replace(regex, '$1');
                   result = editor.val().substring(0, start) + selblock + 
                     editor.val().substring(end);
+                    
+                  reverse = regex.test(sel);
+                  if(reverse) {
+                    count = (sel.match(regex)).length;
+                    end = parseInt(end) - parseInt(first.length * count);
+                  }
+                  
+
                   break;
                   
               case 'table':
@@ -516,11 +548,16 @@
                       result = editor.val().substring(0, start) + first + 
                         editor.val().substring(start, end) + last + '(' + url + ')' + 
                           editor.val().substring(end);
+                      start = parseInt(start) + parseInt(first.length);
+                      end = parseInt(end) + parseInt(first.length);
                   }    
                   break;
           } 
 
           editor.val(result);
+          editor[0].selectionStart = start;
+          editor[0].selectionEnd = end;
+          editor.focus();
 
         });	
     },
