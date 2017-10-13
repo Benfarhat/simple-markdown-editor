@@ -303,8 +303,8 @@
       var config = this.config,
           toolbar = [], 
           button,
-          element = this.$elem[0];
-          $textarea = textarea.$elem
+          element = this.$elem[0],
+          $textarea = textarea.$elem;
           
       $.each( config.buttons, function( key, val ) {
 
@@ -350,9 +350,6 @@
 
    
         $( '.' + config.buttonClass ).unbind("click").click(function() {
-        
-          var $btn = $(this)[0];
-     
 
           var target = $(this).attr('data-target');
           var editor = $('#' + target);
@@ -365,21 +362,21 @@
           var action = $(this).attr('data-action');
           var first = config.buttons[action].first;
           var last = config.buttons[action].last;
-          var check = editor.val().substring(eval(start - parseInt(first.length)),
-            eval(parseInt(start) + parseInt(sel.length) + parseInt(last.length)));
+          var check = editor.val().substring(start - parseInt(first.length),
+            parseInt(start) + parseInt(sel.length) + parseInt(last.length));
           
           var rule = config.buttons[action].rule;
           var newLine = new RegExp(/(\r\n|\r|\n)/, "g");
-          
+          var result, selblock, i, j, reverse, regex, firstsel; 
           switch(rule) {
           
               case 'inline':
                     // if the tag (first fragment) is already present then we delete it
                     if ( check === first + sel + last ) {
-                      var result = editor.val().substring(0, eval(start - first.length)) + 
-                        sel + editor.val().substring(eval(parseInt(end) + parseInt(last.length)));
+                      result = editor.val().substring(0, start - first.length) + 
+                        sel + editor.val().substring(parseInt(end) + parseInt(last.length));
                     } else {
-                      var result = editor.val().substring(0, start) + first + sel + last + 
+                      result = editor.val().substring(0, start) + first + sel + last + 
                         editor.val().substring(end);
                     }
                   break;
@@ -387,10 +384,10 @@
               case 'inline-reversible':
                     // if the tage is already present then we delete it
                     if ( check === first + sel + last ) {
-                      var result = editor.val().substring(0, eval(start - first.length)) + sel + 
-                        editor.val().substring(eval(parseInt(end) + parseInt(last.length)));
+                      result = editor.val().substring(0, start - first.length) + sel + 
+                        editor.val().substring(parseInt(end) + parseInt(last.length));
                     } else {
-                      var result = editor.val().substring(0, start) + first + sel + last + 
+                      result = editor.val().substring(0, start) + first + sel + last + 
                         editor.val().substring(end);
                     }
                   break;
@@ -404,21 +401,21 @@
                         // If the first line start with the tag (first fragment) we reverse the function
                         regex = new RegExp('^' + first.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, 
                           '\\$&'));
-                        var reverse = regex.test(sel);
+                        reverse = regex.test(sel);
 
-                        if( reverse ) var firstsel = sel.replace(regex, '');
+                        if( reverse ) firstsel = sel.replace(regex, '');
                         break;
                       }
                   }
                   if( reverse) {
                     regex = new RegExp('(\r\n|\r|\n)' + first
                       .replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
-                    var selblock = firstsel.replace(regex, '$1');
-                    var result = editor.val().substring(0, start) + selblock + 
+                    selblock = firstsel.replace(regex, '$1');
+                    result = editor.val().substring(0, start) + selblock + 
                       editor.val().substring(end);
                   } else {
-                    var selblock = sel.replace(newLine, '$1' + first);
-                    var result = editor.val().substring(0, start) + first + selblock + last + 
+                    selblock = sel.replace(newLine, '$1' + first);
+                    result = editor.val().substring(0, start) + first + selblock + last + 
                       editor.val().substring(end);
                   }
                   
@@ -433,11 +430,11 @@
                       }
                   }
                   var number = 2;
-                  var selblock = sel.replace(newLine, function() {
+                  selblock = sel.replace(newLine, function() {
                       number++;
                       return "\n" + number + ". ";
-                  })
-                  var result = editor.val().substring(0, start) + first + selblock + last + 
+                  });
+                  result = editor.val().substring(0, start) + first + selblock + last + 
                     editor.val().substring(end);
                   break;
                   
@@ -446,17 +443,17 @@
                       if( ( content.substring( i, i + 1 ) === '\n' ) || ( i === 0 ) ) {
                         start = ( i == 0 ) ? 0 : i + 1 ;
                         sel = editor.val().substring(start, end);
-                        var regex = new RegExp('^' + first
+                        regex = new RegExp('^' + first
                           .replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
-                        var firstsel = sel.replace(regex, '');
+                        firstsel = sel.replace(regex, '');
 
                         break;
                       }
                   }
                   regex = new RegExp('(\r\n|\r|\n)' + first
                     .replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
-                  var selblock = firstsel.replace(regex, '$1');
-                  var result = editor.val().substring(0, start) + selblock + 
+                  selblock = firstsel.replace(regex, '$1');
+                  result = editor.val().substring(0, start) + selblock + 
                     editor.val().substring(end);
                   break;
                   
@@ -465,7 +462,7 @@
                   var cols = parseInt(prompt(config.buttons[action].promptCols));
                   if ( isNaN(rows) || isNaN(cols) ) {
                       alert(config.buttons[action].error);
-                      var result = editor.val();
+                      result = editor.val();
                   } else {
                       rows = rows > config.buttons[action].promptRows ? config.buttons[action].promptRows : rows;
                       cols = cols > config.buttons[action].promptCols ? config.buttons[action].promptCols : cols;
@@ -504,7 +501,7 @@
                         }
                       
                       }
-                      var result = editor.val().substring(0, start) + first + table + last + 
+                      result = editor.val().substring(0, start) + first + table + last + 
                         editor.val().substring(start);
                   }    
                   break;
@@ -514,9 +511,9 @@
                     config.buttons[action].placeholder);
                   if ( url == null || url == "" ) {
                       alert(config.buttons[action].error);
-                      var result = editor.val();
+                      result = editor.val();
                   } else {
-                      var result = editor.val().substring(0, start) + first + 
+                      result = editor.val().substring(0, start) + first + 
                         editor.val().substring(start, end) + last + '(' + url + ')' + 
                           editor.val().substring(end);
                   }    
@@ -525,21 +522,15 @@
 
           editor.val(result);
 
-        });		    
-    
-    
+        });	
     },
-
-    
-    
-  }
+  };
 
   Plugin.defaults = Plugin.prototype.defaults;
 
   $.fn.simpleMarkdownEditor = function(options) {
     return this.each(function() {
       new Plugin(this, options).init();
-     
     });
   };
 
