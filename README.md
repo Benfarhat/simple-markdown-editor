@@ -43,7 +43,7 @@ If you want to render your mardown text i suggest you to use [Showdown](https://
                 class: 'btn btn-primary',
                 first: '# ',
                 last: '',
-                rule: 'block', // @todo special rule for alternative headers ===
+                rule: 'block',
                 tooltip: 'Header lvl 1.' 
               },
               h2: {
@@ -51,7 +51,7 @@ If you want to render your mardown text i suggest you to use [Showdown](https://
                 class: 'btn btn-primary',
                 first: '## ',
                 last: '',
-                rule: 'block', // @todo special rule for alternative headers ---
+                rule: 'block', 
                 tooltip: 'Header lvl 2.' 
               },
 			  bold: { 
@@ -271,7 +271,7 @@ preformatted: {
                 class: 'btn btn-primary',
                 first: '# ',
                 last: '',
-                rule: 'block', // @todo special rule for alternative headers ===
+                rule: 'block', 
                 tooltip: 'Header lvl 1.' 
               },
               h2: {
@@ -279,7 +279,7 @@ preformatted: {
                 class: 'btn btn-primary',
                 first: '## ',
                 last: '',
-                rule: 'block', // @todo special rule for alternative headers ---
+                rule: 'block', 
                 tooltip: 'Header lvl 2.' 
               },
               h3: {
