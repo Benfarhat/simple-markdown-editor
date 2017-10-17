@@ -222,16 +222,13 @@ ___
   <!-- Simple jQuery Markdown Editor -->
   <script src="src/js/Simple-jQMarkdownEditor.js"></script>
   <script src="src/js/jquery.markdownEditor.js"></script>
-  <script src="https://benfarhat.github.io/jquery-character-word-pattern-counter/src/js/jquery-charactercount.js"></script>
         
   <script type="text/javascript">
     $(document).ready(function () {
       'use strict';
 			
       
-      $('#myEditor1').simpleMarkdownEditor()
-				.attr('maxlength','10000')
-				.characterCount();
+      $('#myEditor1').simpleMarkdownEditor();
       
       $('#myEditor2').simpleMarkdownEditor({
 			
