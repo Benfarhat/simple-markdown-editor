@@ -432,7 +432,7 @@
                       .replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), 'g');
                     selblock = firstsel.replace(regex, '$1');
                     
-                    count = (firstsel.match(regex)).length;
+                    count = (firstsel.match(regex) != null) ? (firstsel.match(regex)).length : 0;
                     
                     result = editor.val().substring(0, start) + selblock + 
                       editor.val().substring(end);
@@ -440,7 +440,7 @@
                     end = parseInt(end) - parseInt(first.length * parseInt(count + 1));
                   } else {
                     selblock = sel.replace(newLine, '$1' + first);
-                    count = (sel.match(newLine)).length;
+                    count = (sel.match(newLine) != null) ? (sel.match(newLine)).length : 0;
                     
                     result = editor.val().substring(0, start) + first + selblock + last + 
                       editor.val().substring(end);
@@ -482,7 +482,8 @@
                     
                   reverse = regex.test(sel);
                   if(reverse) {
-                    count = (sel.match(regex)).length;
+                    
+                    count = (sel.match(regex) != null) ? (sel.match(regex)).length : 0;
                     end = parseInt(end) - parseInt(first.length * count);
                   }
                   
