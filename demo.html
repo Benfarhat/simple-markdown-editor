@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>##Online Markdown Editor##</title>
+    <meta charset="utf-8"/>    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Markdown, Editor"> 
+    <meta name="description" content="A Simple jQuery Markdown Editor"> 
+    <meta name="author" content="Benfarhat Elyes"> 
+    <meta name="geo.placename" content="Tunis, Tunisia"> 
+    <meta name="geo.region" content="TN-11">   
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />  
+    <!-- Flatly theme from bootswatch -->
+    <link rel="stylesheet" href="src/css/bootstrap.min.css" />    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+    <!-- Font Face -->
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Cutive+Mono|Inconsolata" rel="stylesheet"> 
+    <!-- Showdown Mardown to HTML 
+    @see: https://github.com/showdownjs/showdown -->
+    <script src="https://cdn.rawgit.com/showdownjs/showdown/1.7.3/dist/showdown.min.js"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <!-- Demo css -->
+    <link href="src/css/demo.css" rel="stylesheet">
+</head>
+
+<body style="padding-top:70px;">
+  
+    <!-- ######## -->
+    <!-- MENU NAV -->
+    <!-- ######## -->
+    
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">💡 Simple Online Markdown Editor <i class="fa fa-hashtag"></i> <sub style="font-size:0.6em;">WIP</sub></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="https://github.com/Benfarhat"><i class="fa fa-github"></i> <span class="sr-only">(current)</span></a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Markdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="https://en.wikipedia.org/wiki/Markdown">Definition</a></li>
+                <li><a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Cheatsheet</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="https://docs.gitlab.com/ee/user/markdown.html">Markdown documentation (Gitlab)</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    <!-- ########### -->
+    <!-- PRIMARY MSG -->
+    <!-- ########### -->
+    
+
+    <div class="container-fluid">
+
+      
+
+
+<div id="specialstuff" data-example-id="togglable-tabs">
+    <ul class="nav nav-pills" id="myTabs" role="tablist" style="margin-bottom:16px;">
+        <li role="presentation" class="dropdown">
+            <a href="#" class="dropdown-toggle" id="myTabDrop1" data-toggle="dropdown" aria-controls="myTabDrop1-contents" aria-expanded="false">File <span class="caret"></span></a> 
+            <ul class="dropdown-menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents">
+                <li><a href="#dropdown1" role="tab" id="dropdown1-tab" data-toggle="tab" aria-controls="dropdown1">New</a></li>
+                <li><a href="#dropdown2" role="tab" id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2">Open</a></li>
+                <li><a href="#dropdown2" role="tab" id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2">Save</a></li>
+            </ul>
+        </li>
+        
+      
+      <li class="pull-right"><a href="#" id="restorebutton" data-toggle="tab" ><i class="fa fa-level-down"></i> Restore</a></li>
+      
+      <li class="pull-right"><a href="#" id="fsbutton" data-toggle="tab" ><i class="fa fa-arrows-alt"></i> Fullscreen</a></li>
+      
+      <li role="presentation" class="pull-right""><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><i class="fa fa-eye"></i> Preview</a></li>
+      
+      <li role="presentation" class="active pull-right""><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><i class="fa fa-edit"></i></a></li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade active in" role="tabpanel" id="home" aria-labelledby="home-tab">
+            <textarea id="myEditor1" style="height:100%;"># Header 1
+
+## subtitle 1
+Lorem **ipsum** dolor sit amet, consectetur *adipiscing* elit. Integer finibus purus iaculis, condimentum ex quis, ullamcorper nulla. Quisque vel dolor lacus. Integer ac elit quis orci suscipit dapibus. Nulla laoreet felis sed dolor posuere, finibus placerat dolor sodales. Aenean tellus ligula, egestas ut sapien quis, euismod laoreet risus. Donec vel nibh ex. Quisque rhoncus justo in tellus posuere, non pellentesque ligula elementum. Nulla laoreet nibh eget ex ultrices, vitae auctor nulla maximus. Duis volutpat felis mauris, sit amet porttitor ex venenatis ut. Sed rhoncus tortor quis metus maximus suscipit.
+
+* item
+* item
+	* item
+	* item
+* item
+
+
+1. item
+3. item
+4. item
+5. item
+6. item
+
+
+## subtitle 2
+
+
+> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer finibus purus iaculis, condimentum ex quis, ullamcorper nulla. Quisque vel dolor lacus. Integer ac elit quis orci suscipit dapibus 
+
+- [x] task 1
+- [x] task 2
+- [ ] task 3
+- [ ] task 4
+- [x] task 5
+
+___
+
+Header 2
+a [link](https://github.com/Benfarhat/simple-markdown-editor)
+a picture: 
+![](https://raw.githubusercontent.com/indievox-inc/iNDIEVOX-Web-Profile/master/image/github-logo.jpg)
+and a table
+
+
+| &nbsp;Header 1  - Left-aligned &nbsp; | &nbsp;Header 2  Center-aligned &nbsp; | &nbsp;Header 3  Center-aligned &nbsp; | &nbsp;Header 4  Right-aligned &nbsp; |
+|:--- |:---:|:---:| ---:|
+| Col1-Row1 | Col1-Row2 | Col1-Row3 | Col1-Row4 |
+| Col2-Row1 | Col2-Row2 | Col2-Row3 | Col2-Row4 |
+| Col3-Row1 | Col3-Row2 | Col3-Row3 | Col3-Row4 |
+
+
+
+___
+
+</textarea>
+        </div>
+        <div class="tab-pane fade" role="tabpanel" id="profile" aria-labelledby="profile-tab">
+            <div id="preview1" class="preview">
+        </div>
+        <div class="tab-pane fade" role="tabpanel" id="dropdown1" aria-labelledby="dropdown1-tab">
+            <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
+        </div>
+        <div class="tab-pane fade" role="tabpanel" id="dropdown2" aria-labelledby="dropdown2-tab">
+            <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
+        </div>
+    </div>
+</div>
+</div>
+
+    
+    
+    <!-- ###### -->
+    <!-- FOOTER -->
+    <!-- ###### -->
+    
+    <div class="container">
+      <footer>
+        <p>Please <span class="text-danger">❤❤❤</span> No matter how small your contribution is, never stop sharing your knowledge with the world!</p>
+      </footer>
+    </div> <!-- /container -->
+    
+    
+    
+
+  <!-- All Jquery -->
+  <!-- ============================================================== -->
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="src/js/jquery/1.12.4/jquery.min.js"><\/script>');</script>
+  <!-- Bootstrap Core JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Simple jQuery Markdown Editor -->
+  <script src="src/js/Simple-jQMarkdownEditor.js"></script>
+  <script src="src/js/jquery.markdownEditor.js"></script>
+        
+  <script type="text/javascript">
+    $(document).ready(function () {
+      'use strict';
+			
+      
+      $('#myEditor1').simpleMarkdownEditor();
+      
+      $('#myEditor2').simpleMarkdownEditor({
+			
+
+            buttons: {
+              // Inline rule - generally wrapped by characters (first and last)
+              
+              h1: {
+                title: 'Header H1', 
+                class: 'btn btn-primary',
+                first: '# ',
+                last: '',
+                hotkey: '1',
+                rule: 'block', // @todo special rule for alternative headers ===
+                tooltip: 'Header lvl 1.' 
+              },
+              h2: {
+                title: 'Header H2',
+                class: 'btn btn-primary',
+                first: '## ',
+                last: '',
+                hotkey: '2',
+                rule: 'block', // @todo special rule for alternative headers ---
+                tooltip: 'Header lvl 2.' 
+              },
+							bold: { 
+                title: '<i class="fa fa-bold"></i> Bold',  
+                class: 'btn btn-info', 
+                first: '**', // First fragment > opening tag
+                last: '**', // Last fragment > closing tag
+                hotkey: 'b', // @todo
+                rule: 'inline',
+                tooltip: 'Strong.'
+              },
+              italic: {
+                title: '<i class="fa fa-italic"></i> Italic',
+                class: 'btn btn-info',
+                first: '*',
+                last: '*',
+                hotkey: 'i',
+                rule: 'inline',
+                tooltip: 'Emphasis.'
+              },
+              NumberedList: {
+                title: '<i class="fa fa-list-ol"></i> Ordered list',
+                class: 'btn btn-danger',
+                first: '1. ',
+                last: '\n',
+                hotkey: 'i',
+                rule: 'ordered',
+                tooltip: 'Ordered list.' 
+              },
+              BullettedList: {
+                title: '<i class="fa fa-list-ul"></i> Unordered list',
+                class: 'btn btn-danger',
+                first: '* ',
+                last: '\n',
+                hotkey: 'i',
+                rule: 'block',
+                tooltip: 'Unordered list.' 
+              },
+              hr: {
+                title: '<i class="fa fa-minus"></i> Line',
+                class: 'btn',
+                first: '\n___\n',
+                last: '',
+                hotkey: '6',
+                rule: 'inline',
+                tooltip: 'Horizontal rule.' 
+              },
+							links : {
+                title: '<i class="fa fa-link"></i> Link',
+                class: 'btn btn-success',
+                first: '[',
+                last: ']',
+                hotkey: '6',
+                rule: 'url',
+                tooltip: 'Insert link.',
+                prompt: 'Please enter a url.',
+                error: 'User cancelled the prompt.',
+                placeholder: 'http://'
+              },
+            },
+            buttonClass: "markdowneditor",
+            toolbarContainer: "#test-toolbar", 
+            toolbarClass: "toolbar2", // wrapping div
+            strictSelection: true 			
+			
+      });
+ 
+      var converter = new showdown.Converter();    
+      converter.setFlavor('github');   
+      $('#preview1').html(converter.makeHtml($('#myEditor1').val()));  
+      $('#preview2').html(converter.makeHtml($('#myEditor2').val()));
+      
+
+      $('#myEditor1').bind('input focus propertychange', function() { 
+        $('#preview1').html(converter.makeHtml($(this).val()));
+      });
+      
+      $('#myEditor2').bind('input focus propertychange', function() { 
+        $('#preview2').html(converter.makeHtml($(this).val()));
+      });
+   
+   
+ 
+		<!-- Synchronize scroll between textarea and previews -->
+		var e1 = document.getElementById('myEditor1');
+		var p1 = document.getElementById('preview1');
+
+		function sync_scroll_1(e) { p1.scrollTop = e1.scrollTop; }
+		function sync_scroll_3(e) { e1.scrollTop = p1.scrollTop; }
+
+		e1.addEventListener('scroll', sync_scroll_1, false);
+		p1.addEventListener('scroll', sync_scroll_1, false);  
+
+    });
+
+
+  </script> 
+  <!-- Native FullScreen article: http://johndyer.name/native-fullscreen-javascript-api-plus-jquery-plugin/ -->
+  <script>
+
+  /* 
+  Native FullScreen JavaScript API
+  -------------
+  Assumes Mozilla naming conventions instead of W3C for now
+  */
+
+  (function() {
+    var 
+      fullScreenApi = { 
+        supportsFullScreen: false,
+        isFullScreen: function() { return false; }, 
+        requestFullScreen: function() {}, 
+        cancelFullScreen: function() {},
+        fullScreenEventName: '',
+        prefix: ''
+      },
+      browserPrefixes = 'webkit moz o ms khtml'.split(' ');
+    
+    // check for native support
+    if (typeof document.cancelFullScreen != 'undefined') {
+      fullScreenApi.supportsFullScreen = true;
+    } else {	 
+      // check for fullscreen support by vendor prefix
+      for (var i = 0, il = browserPrefixes.length; i < il; i++ ) {
+        fullScreenApi.prefix = browserPrefixes[i];
+        
+        if (typeof document[fullScreenApi.prefix + 'CancelFullScreen' ] != 'undefined' ) {
+          fullScreenApi.supportsFullScreen = true;
+          
+          break;
+        }
+      }
+    }
+    
+    // update methods to do something useful
+    if (fullScreenApi.supportsFullScreen) {
+      fullScreenApi.fullScreenEventName = fullScreenApi.prefix + 'fullscreenchange';
+      
+      fullScreenApi.isFullScreen = function() {
+        switch (this.prefix) {	
+          case '':
+            return document.fullScreen;
+          case 'webkit':
+            return document.webkitIsFullScreen;
+          default:
+            return document[this.prefix + 'FullScreen'];
+        }
+      }
+      fullScreenApi.requestFullScreen = function(el) {
+        return (this.prefix === '') ? el.requestFullScreen() : el[this.prefix + 'RequestFullScreen']();
+      }
+      fullScreenApi.cancelFullScreen = function(el) {
+        return (this.prefix === '') ? document.cancelFullScreen() : document[this.prefix + 'CancelFullScreen']();
+      }		
+    }
+
+    // jQuery plugin
+    if (typeof jQuery != 'undefined') {
+      jQuery.fn.requestFullScreen = function() {
+    
+        return this.each(function() {
+          var el = jQuery(this);
+          if (fullScreenApi.supportsFullScreen) {
+            fullScreenApi.requestFullScreen(el);
+          }
+        });
+      };
+    }
+
+    // export api
+    window.fullScreenApi = fullScreenApi;	
+  })();
+
+  </script>
+
+  <script>
+
+  var fsButton = document.getElementById('fsbutton'),
+    rsButton = document.getElementById('restorebutton'),
+    fsElement = document.getElementById('specialstuff');
+
+
+  if (window.fullScreenApi.supportsFullScreen) {
+    
+    // handle button click
+    fsButton.addEventListener('click', function(event) {
+      window.fullScreenApi.requestFullScreen(fsElement);
+      event.preventDefault();
+    }, true);
+    
+    rsButton.addEventListener('click', function(event) {
+      window.fullScreenApi.cancelFullScreen(fsElement);
+      event.preventDefault();
+    }, true);
+    
+    
+  } else {
+  }
+
+  </script>
+</body>
+</html>

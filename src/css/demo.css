@@ -18,12 +18,12 @@ body {
 .toolbar{
   background-color: #eee;  
 }
-.btn{border-radius: 0;}
+.btn, .nav-pills > li > a , .dropdown-menu{border-radius: 0;}
 textarea, .preview{
   width: 100%;
   padding: 4px;
   border: 1px solid #e1e1e1;
-  min-height: 400px;
+  min-height: 600px;
   background-color: #fff;
 }
 textarea{
@@ -31,7 +31,7 @@ textarea{
     font-family: 'Inconsolata', monospace;
 }
 .preview{
-	max-height: 468px;
+	max-height: 668px;
 	overflow: auto;
 }
 footer p{
