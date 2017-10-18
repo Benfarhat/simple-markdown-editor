@@ -1,5 +1,6 @@
 body {
   font-family: 'Archivo Narrow', sans-serif;
+  background: #FBFBFB url('../img/02.png') top left repeat;
 }
 .jumbotron{
   margin-bottom: 0;
