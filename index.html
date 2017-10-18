@@ -83,11 +83,11 @@
 
 
 <div id="specialstuff">
-    <ul class="nav nav-pills" id="myTabs" role="tablist" style="margin-bottom:16px;">
-        <li role="presentation" class="dropdown active">
+    <ul class="nav nav-pills" id="myTabs" style="margin-bottom:16px;">
+        <li class="dropdown">
             <a href="#" class="dropdown-toggle" id="myTabDrop1" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-file-text-o"></i> File <span class="caret"></span></a> 
-            <ul class="dropdown-menu" aria-labelledby="file-menu" id="file-menu">
-                <li><a href="#" onclick="emptyTextarea();"><i class="fa fa-file-o"></i> New</a></li>
+            <ul class="dropdown-menu"id="file-menu">
+                <li><a href="#" onclick="$.emptyTextarea();"><i class="fa fa-file-o"></i> New</a></li>
                 <li><a href="#"  onclick="document.getElementById('file-input').click();"><i class="fa fa-folder-open-o"></i> Open</a><input id="file-input" type="file" name="name" style="display: none;"  accept=".md, .txt"/></li>
             <li><a href="#" id="saveToFile"><i class="fa fa-floppy-o"></i> Save</a></li>
             </ul>
@@ -98,12 +98,12 @@
       
       <li class="pull-right"><a href="#" id="fsbutton"><i class="fa fa-arrows-alt"></i> Fullscreen</a></li>
       
-      <li role="presentation" class="pull-right""><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><i class="fa fa-eye"></i> Preview</a></li>
+      <li role="presentation" class="pull-right""><a href="#previewPanel" role="tab" id="preview-tab" data-toggle="tab" aria-controls="previewPanel" aria-expanded="false"><i class="fa fa-eye"></i> Preview</a></li>
       
-      <li role="presentation" class="active pull-right""><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><i class="fa fa-edit"></i></a></li>
+      <li role="presentation" class="active pull-right""><a href="#editPanel" id="edit-tab" role="tab" data-toggle="tab" aria-controls="editPanel" aria-expanded="true"><i class="fa fa-edit"></i></a></li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade active in" role="tabpanel" id="home" aria-labelledby="home-tab">
+        <div class="tab-pane fade active in" role="tabpanel" id="editPanel" aria-labelledby="edit-tab">
             <textarea id="myEditor1" style="height:100%;"># Header 1
 
 ## subtitle 1
@@ -155,14 +155,11 @@ ___
 
 </textarea>
         </div>
-        <div class="tab-pane fade" role="tabpanel" id="profile" aria-labelledby="profile-tab">
+        <div class="tab-pane fade" role="tabpanel" id="previewPanel" aria-labelledby="preview-tab">
             <div id="preview1" class="preview">
         </div>
-        <div class="tab-pane fade" role="tabpanel" id="dropdown1" aria-labelledby="dropdown1-tab">
-            <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
-        </div>
-        <div class="tab-pane fade" role="tabpanel" id="dropdown2" aria-labelledby="dropdown2-tab">
-            <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
+        <div class="tab-pane fade" role="tabpanel" id="aboutPanel" aria-labelledby="about-tab">
+            <p>Simple Online Markdown Editor 0.9 - By Benfarhat Elyes.</p>
         </div>
     </div>
 </div>
@@ -203,14 +200,14 @@ ___
     }
 
   <!-- On new file -->
-    function emptyTextarea(event) {
+    $.emptyTextarea = function(event) {
       document.getElementById('myEditor1').textContent = '';
-      markAsChanged("false");
-    }
+      document.getElementById('preview1').textContent = '';
+    };
     
-  <!-- On Save menu click -->
+  <!-- On Save menu click --> 
     function saveTextAsFile() {
-      var textToWrite = document.getElementById('myEditor1').textContent;
+      var textToWrite = document.getElementById('myEditor1').value;
       var textFileAsBlob = new Blob([ textToWrite ], { type: 'text/plain' });
       var fileNameToSaveAs = "file.md";
 
@@ -231,8 +228,7 @@ ___
       downloadLink.click();
     }
 
-    var button = document.getElementById('saveToFile');
-    button.addEventListener('click', saveTextAsFile);
+    document.getElementById('saveToFile').addEventListener('click', saveTextAsFile);
 
     function destroyClickedElement(event) {
       // remove the link from the DOM
@@ -240,8 +236,8 @@ ___
     } 
     
   <!-- Reading files in JavaScript using the File APIs - article: https://www.html5rocks.com/en/tutorials/file/dndfiles/ -->
-  
-    function loadMardownFile(event) {
+
+    document.getElementById('file-input').addEventListener('change', function(event) {
       var f = event.target.files[0];
       if (f) {
         var r = new FileReader();
@@ -253,9 +249,7 @@ ___
       } else { 
         alert ("Error: Unable to read file " + f.name + ".");
       }
-    }
-
-    document.getElementById('file-input').addEventListener('change', loadMardownFile, false);
+    }, false);
   </script>
   <!-- Native FullScreen article: http://johndyer.name/native-fullscreen-javascript-api-plus-jquery-plugin/ -->
   <script>
@@ -371,8 +365,12 @@ ___
       $('#preview1').html(converter.makeHtml($('#myEditor1').val()));  
       
 
-      $('#myEditor1').bind('input focus propertychange', function() { 
+      $('#myEditor1').bind('input focus propertychange change', function() { 
         $('#preview1').html(converter.makeHtml($(this).val()));
+      });
+      // If we load file without changing textarea content
+      $('#preview-tab').bind('click', function() { 
+        $('#preview1').html(converter.makeHtml($('#myEditor1').val()));
       });
       
 		<!-- Synchronize scroll between textarea and previews -->
