@@ -40,6 +40,12 @@ footer p{
 .btn-group-vertical > .btn:last-child:not(:first-child), .btn-group-vertical > .btn:first-child:not(:last-child), button.btn, btn{
 	border-radius: 0;
 }
+a, a:hover, a:focus{
+  color:#23527c;
+}
+.navbar-nav > li > audio {
+    padding-top: 19px;
+}
 /*
  * Demo 2
  */

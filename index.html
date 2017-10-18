@@ -10,12 +10,13 @@
     <meta name="author" content="Benfarhat Elyes"> 
     <meta name="geo.placename" content="Tunis, Tunisia"> 
     <meta name="geo.region" content="TN-11">   
+    <!-- NB: Curiously, secure cloudflare seems to be andomly offline - If it's ok for you change http to https -->
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />  
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />  
     <!-- Flatly theme from bootswatch -->
     <link rel="stylesheet" href="src/css/bootstrap.min.css" />    
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
     <!-- Font Face -->
     <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css?family=Cutive+Mono|Inconsolata" rel="stylesheet"> 
@@ -47,9 +48,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">💡 Simple Online Markdown Editor <i class="fa fa-hashtag"></i> <sub style="font-size:0.6em;">WIP</sub></a>
+          <a class="navbar-brand" href="#">💡 Simple Online Markdown Editor 0.9 <i class="fa fa-hashtag"></i> <sub style="font-size:0.6em;">WIP</sub></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><audio controls>
+          <source src="src/audio/Eximinds_Flying_High.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+        </audio></li>
+          </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="active"><a href="https://github.com/Benfarhat"><i class="fa fa-github"></i> <span class="sr-only">(current)</span></a></li>
             <li class="dropdown">
@@ -76,21 +83,21 @@
       
 
 
-<div id="specialstuff" data-example-id="togglable-tabs">
+<div id="specialstuff">
     <ul class="nav nav-pills" id="myTabs" role="tablist" style="margin-bottom:16px;">
-        <li role="presentation" class="dropdown">
-            <a href="#" class="dropdown-toggle" id="myTabDrop1" data-toggle="dropdown" aria-controls="myTabDrop1-contents" aria-expanded="false">File <span class="caret"></span></a> 
-            <ul class="dropdown-menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents">
-                <li><a href="#dropdown1" role="tab" id="dropdown1-tab" data-toggle="tab" aria-controls="dropdown1">New</a></li>
-                <li><a href="#dropdown2" role="tab" id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2">Open</a></li>
-                <li><a href="#dropdown2" role="tab" id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2">Save</a></li>
+        <li role="presentation" class="dropdown active">
+            <a href="#" class="dropdown-toggle" id="myTabDrop1" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-file-text-o"></i> File <span class="caret"></span></a> 
+            <ul class="dropdown-menu" aria-labelledby="file-menu" id="file-menu">
+                <li><a href="#" onclick="emptyTextarea();"><i class="fa fa-file-o"></i> New</a></li>
+                <li><a href="#"  onclick="document.getElementById('file-input').click();"><i class="fa fa-folder-open-o"></i> Open</a><input id="file-input" type="file" name="name" style="display: none;"  accept=".md, .txt"/></li>
+            <li><a href="#" id="saveToFile"><i class="fa fa-floppy-o"></i> Save</a></li>
             </ul>
         </li>
         
       
-      <li class="pull-right"><a href="#" id="restorebutton" data-toggle="tab" ><i class="fa fa-level-down"></i> Restore</a></li>
+      <li class="pull-right"><a href="#" id="restorebutton"><i class="fa fa-level-down"></i> Restore</a></li>
       
-      <li class="pull-right"><a href="#" id="fsbutton" data-toggle="tab" ><i class="fa fa-arrows-alt"></i> Fullscreen</a></li>
+      <li class="pull-right"><a href="#" id="fsbutton"><i class="fa fa-arrows-alt"></i> Fullscreen</a></li>
       
       <li role="presentation" class="pull-right""><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><i class="fa fa-eye"></i> Preview</a></li>
       
@@ -180,140 +187,78 @@ ___
   <!-- All Jquery -->
   <!-- ============================================================== -->
   <!-- jQuery -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- NB: Curiosly secure cloudflare is sometimes down if it's ok for you juste change http to https -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="src/js/jquery/1.12.4/jquery.min.js"><\/script>');</script>
   <!-- Bootstrap Core JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- Simple jQuery Markdown Editor -->
   <script src="src/js/Simple-jQMarkdownEditor.js"></script>
   <script src="src/js/jquery.markdownEditor.js"></script>
-        
-  <script type="text/javascript">
-    $(document).ready(function () {
-      'use strict';
-			
-      
-      $('#myEditor1').simpleMarkdownEditor();
-      
-      $('#myEditor2').simpleMarkdownEditor({
-			
+  <script>
+  <!-- On textarea content change -->
+  
+  <!-- @todo in another life: detect if textarea content change, -->
+  <!-- if it's true, ask user to save this content before opening a nex or an existing file -->
+    function markAsChanged(value) {
+      document.getElementById('myEditor1').setAttribute("data-edited", value); 
+    }
 
-            buttons: {
-              // Inline rule - generally wrapped by characters (first and last)
-              
-              h1: {
-                title: 'Header H1', 
-                class: 'btn btn-primary',
-                first: '# ',
-                last: '',
-                hotkey: '1',
-                rule: 'block', // @todo special rule for alternative headers ===
-                tooltip: 'Header lvl 1.' 
-              },
-              h2: {
-                title: 'Header H2',
-                class: 'btn btn-primary',
-                first: '## ',
-                last: '',
-                hotkey: '2',
-                rule: 'block', // @todo special rule for alternative headers ---
-                tooltip: 'Header lvl 2.' 
-              },
-							bold: { 
-                title: '<i class="fa fa-bold"></i> Bold',  
-                class: 'btn btn-info', 
-                first: '**', // First fragment > opening tag
-                last: '**', // Last fragment > closing tag
-                hotkey: 'b', // @todo
-                rule: 'inline',
-                tooltip: 'Strong.'
-              },
-              italic: {
-                title: '<i class="fa fa-italic"></i> Italic',
-                class: 'btn btn-info',
-                first: '*',
-                last: '*',
-                hotkey: 'i',
-                rule: 'inline',
-                tooltip: 'Emphasis.'
-              },
-              NumberedList: {
-                title: '<i class="fa fa-list-ol"></i> Ordered list',
-                class: 'btn btn-danger',
-                first: '1. ',
-                last: '\n',
-                hotkey: 'i',
-                rule: 'ordered',
-                tooltip: 'Ordered list.' 
-              },
-              BullettedList: {
-                title: '<i class="fa fa-list-ul"></i> Unordered list',
-                class: 'btn btn-danger',
-                first: '* ',
-                last: '\n',
-                hotkey: 'i',
-                rule: 'block',
-                tooltip: 'Unordered list.' 
-              },
-              hr: {
-                title: '<i class="fa fa-minus"></i> Line',
-                class: 'btn',
-                first: '\n___\n',
-                last: '',
-                hotkey: '6',
-                rule: 'inline',
-                tooltip: 'Horizontal rule.' 
-              },
-							links : {
-                title: '<i class="fa fa-link"></i> Link',
-                class: 'btn btn-success',
-                first: '[',
-                last: ']',
-                hotkey: '6',
-                rule: 'url',
-                tooltip: 'Insert link.',
-                prompt: 'Please enter a url.',
-                error: 'User cancelled the prompt.',
-                placeholder: 'http://'
-              },
-            },
-            buttonClass: "markdowneditor",
-            toolbarContainer: "#test-toolbar", 
-            toolbarClass: "toolbar2", // wrapping div
-            strictSelection: true 			
-			
-      });
- 
-      var converter = new showdown.Converter();    
-      converter.setFlavor('github');   
-      $('#preview1').html(converter.makeHtml($('#myEditor1').val()));  
-      $('#preview2').html(converter.makeHtml($('#myEditor2').val()));
-      
+  <!-- On new file -->
+    function emptyTextarea(event) {
+      document.getElementById('myEditor1').textContent = '';
+      markAsChanged("false");
+    }
+    
+  <!-- On Save menu click -->
+    function saveTextAsFile() {
+      var textToWrite = document.getElementById('myEditor1').textContent;
+      var textFileAsBlob = new Blob([ textToWrite ], { type: 'text/plain' });
+      var fileNameToSaveAs = "file.md";
 
-      $('#myEditor1').bind('input focus propertychange', function() { 
-        $('#preview1').html(converter.makeHtml($(this).val()));
-      });
-      
-      $('#myEditor2').bind('input focus propertychange', function() { 
-        $('#preview2').html(converter.makeHtml($(this).val()));
-      });
-   
-   
- 
-		<!-- Synchronize scroll between textarea and previews -->
-		var e1 = document.getElementById('myEditor1');
-		var p1 = document.getElementById('preview1');
+      var downloadLink = document.createElement("a");
+      downloadLink.download = fileNameToSaveAs;
+      downloadLink.innerHTML = "Download File";
+      if (window.webkitURL != null) {
+        // Chrome allows the link to be clicked without actually adding it to the DOM.
+        downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+      } else {
+        // Firefox requires the link to be added to the DOM before it can be clicked.
+        downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+        downloadLink.onclick = destroyClickedElement;
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+      }
 
-		function sync_scroll_1(e) { p1.scrollTop = e1.scrollTop; }
-		function sync_scroll_3(e) { e1.scrollTop = p1.scrollTop; }
+      downloadLink.click();
+    }
 
-		e1.addEventListener('scroll', sync_scroll_1, false);
-		p1.addEventListener('scroll', sync_scroll_1, false);  
+    var button = document.getElementById('saveToFile');
+    button.addEventListener('click', saveTextAsFile);
 
-    });
+    function destroyClickedElement(event) {
+      // remove the link from the DOM
+      document.body.removeChild(event.target);
+    } 
+    
+  <!-- Reading files in JavaScript using the File APIs - article: https://www.html5rocks.com/en/tutorials/file/dndfiles/ -->
+  
+    function loadMardownFile(event) {
+      var f = event.target.files[0];
+      if (f) {
+        var r = new FileReader();
+        r.onload = function(e) {
+          document.getElementById('myEditor1').textContent = e.target.result;
+          markAsChanged("false");
+        };
+        r.readAsText(f);
+      } else { 
+        alert ("Error: Unable to read file " + f.name + ".");
+      }
+    }
 
-
-  </script> 
+    document.getElementById('file-input').addEventListener('change', loadMardownFile, false);
+  </script>
   <!-- Native FullScreen article: http://johndyer.name/native-fullscreen-javascript-api-plus-jquery-plugin/ -->
   <script>
 
@@ -391,9 +336,8 @@ ___
   })();
 
   </script>
-
   <script>
-
+  
   var fsButton = document.getElementById('fsbutton'),
     rsButton = document.getElementById('restorebutton'),
     fsElement = document.getElementById('specialstuff');
@@ -414,8 +358,38 @@ ___
     
     
   } else {
+    alert("Full screen mode is not available");
   }
 
   </script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      'use strict';
+      
+      $('#myEditor1').simpleMarkdownEditor();
+ 
+      var converter = new showdown.Converter();    
+      converter.setFlavor('github');   
+      $('#preview1').html(converter.makeHtml($('#myEditor1').val()));  
+      
+
+      $('#myEditor1').bind('input focus propertychange', function() { 
+        $('#preview1').html(converter.makeHtml($(this).val()));
+      });
+      
+		<!-- Synchronize scroll between textarea and previews -->
+		var e1 = document.getElementById('myEditor1');
+		var p1 = document.getElementById('preview1');
+
+		function sync_scroll_1(e) { p1.scrollTop = e1.scrollTop; }
+		function sync_scroll_3(e) { e1.scrollTop = p1.scrollTop; }
+
+		e1.addEventListener('scroll', sync_scroll_1, false);
+		p1.addEventListener('scroll', sync_scroll_1, false);  
+
+    });
+
+
+  </script> 
 </body>
 </html>
